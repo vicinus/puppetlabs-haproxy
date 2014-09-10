@@ -25,8 +25,8 @@ RSpec.configure do |c|
   # Configure all nodes in nodeset
   c.before :suite do
     # Install module and dependencies
-    puppet_module_install(:source => proj_root, :module_name => 'haproxy')
     hosts.each do |host|
+      copy_module_to(host, :source => proj_root, :module_name => 'haproxy')
       on host, puppet('module','install','puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
       on host, puppet('module','install','puppetlabs-concat'), { :acceptable_exit_codes => [0,1] }
       if fact('osfamily') == 'RedHat'
