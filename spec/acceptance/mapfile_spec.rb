@@ -75,16 +75,9 @@ describe 'create mapfiles' do
           content => $error_page_content,
         }
         file_line {'localhost':
-          path => '/etc/hosts',
-          line => '127.0.0.1 localhost',
-        }
-        file_line {'host2':
-          path => '/etc/hosts',
-          line => '127.0.0.2 host2',
-        }
-        file_line {'host3':
-          path => '/etc/hosts',
-          line => '127.0.0.3 host3',
+          path  => '/etc/hosts',
+          line  => '127.0.0.1 localhost host2 host3',
+          match => '^127\.0\.0\.1',
         }
         include ::haproxy
         haproxy::mapfile { 'single-mapfile':
@@ -94,13 +87,11 @@ describe 'create mapfiles' do
             { 'host3' => 'backend3' },
           ],
         }
-        haproxy::listen { 'test00':
-          bind    => {
-            '127.0.0.1:5555' => [],
-            '127.0.0.2:5555' => [],
-            '127.0.0.3:5555' => [],
-          },
-          options => {
+        haproxy::frontend { 'test00':
+          ipaddress => '127.0.0.1',
+          ports     => '5555',
+          mode      => 'http',
+          options   => {
             'use_backend' => '%[req.hdr(host),lower,map_dom(/etc/haproxy/single-mapfile.map,backend1)]'
           },
         }
@@ -173,16 +164,9 @@ describe 'create mapfiles' do
           content => $error_page_content,
         }
         file_line {'localhost':
-          path => '/etc/hosts',
-          line => '127.0.0.1 localhost',
-        }
-        file_line {'host2':
-          path => '/etc/hosts',
-          line => '127.0.0.2 host2',
-        }
-        file_line {'host3':
-          path => '/etc/hosts',
-          line => '127.0.0.3 host3',
+          path  => '/etc/hosts',
+          line  => '127.0.0.1 localhost host2 host3',
+          match => '^127\.0\.0\.1',
         }
         include ::haproxy
         haproxy::mapfile { 'multiple-mapfiles':
@@ -194,14 +178,12 @@ describe 'create mapfiles' do
         haproxy::mapfile::entry { 'host3 backend3':
           mapfile  => 'multiple-mapfiles',
         }
-        haproxy::listen { 'test00':
-          bind    => {
-            '127.0.0.1:5555' => [],
-            '127.0.0.2:5555' => [],
-            '127.0.0.3:5555' => [],
-          },
-          options => {
-            'use_backend' => '%[req.hdr(host),lower,map_dom(/etc/haproxy/multiple-mapfiles.map,backend1)]'
+        haproxy::frontend { 'test00':
+          ipaddress => '127.0.0.1',
+          ports     => '5555',
+          mode      => 'http',
+          options   => {
+            'use_backend' => '%[req.hdr(host),lower,map_dom(/etc/haproxy/single-mapfile.map,backend1)]'
           },
         }
         haproxy::backend { 'backend1':
