@@ -42,7 +42,11 @@ RSpec.configure do |c|
     LitmusHelper.instance.run_shell('setenforce 0', expect_failures: true) if os[:family].match?(%r{redhat|oracle})
 
     if os[:family] == 'redhat' && os[:release].to_i != 8
-      LitmusHelper.instance.run_shell('puppet module install stahnma/epel')
+      epel_owner = 'puppet'
+      if os[:release].to_i == 6
+        epel_owner = 'stahnma'
+      end
+      LitmusHelper.instance.run_shell("puppet module install #{epel_owner}/epel")
       if os[:release][0].match?(%r{5|6})
         pp = <<-PP
         class { 'epel':
