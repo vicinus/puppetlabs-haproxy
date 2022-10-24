@@ -15,6 +15,15 @@
 # @param nameservers
 #   Set of id, ip addresses and port options.
 #   $nameservers = { 'dns1' => '10.0.0.1:53', 'dns2' => '10.0.0.2:53' }
+#   Either the 'nameservers' or the 'parse_resolv_conf' parameter must be
+#   specified in order for the resolver to work.
+#   Default: none specified.
+#
+# @param parse_resolv_conf
+#   If true, parse resolv.conf to retrieve an ordered set of nameservers.
+#   This can be used instead of (or in addition to) the 'nameservers'
+#   parameter.
+#   Default: false
 #
 # @param hold
 #   Defines <period> during which the last name resolution should be kept
@@ -87,17 +96,19 @@
 # Ricardo Rosales <missingcharacter@gmail.com>
 #
 define haproxy::resolver (
-  $nameservers             = undef,
-  $hold                    = undef,
-  $resolve_retries         = undef,
-  $timeout                 = undef,
-  $accepted_payload_size   = undef,
-  $instance                = 'haproxy',
-  $section_name            = $name,
-  $sort_options_alphabetic = undef,
-  $collect_exported        = true,
-  $config_file             = undef,
-  $defaults                = undef,
+  Hash $nameservers       = {},
+  Boolean $parse_resolv_conf                          = false,
+  $hold                                               = undef,
+  $resolve_retries                                    = undef,
+  $timeout                                            = undef,
+  # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
+  Optional[Integer[512, 8192]] $accepted_payload_size = undef,
+  $instance                                           = 'haproxy',
+  $section_name                                       = $name,
+  $sort_options_alphabetic                            = undef,
+  $collect_exported                                   = true,
+  $config_file                                        = undef,
+  $defaults                                           = undef,
 ) {
   include haproxy::params
 
@@ -118,12 +129,6 @@ define haproxy::resolver (
     $order = "20-${section_name}-01"
   } else {
     $order = "25-${defaults}-${section_name}-02"
-  }
-
-  # verify accepted_payload_size is withing the allowed range per HAProxy docs
-  # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
-  if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
-    fail('$accepted_payload_size must be atleast 512 and not more than 8192')
   }
 
   # Template uses: $section_name
