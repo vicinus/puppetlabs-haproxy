@@ -6,8 +6,12 @@ describe 'haproxy::instance_service' do
   let(:facts) do
     {
       concat_basedir: '/dne',
-      ipaddress: '10.10.10.10',
-      osfamily: 'Debian',
+      networking: {
+        ip: '10.10.10.10',
+      },
+      os: {
+        family: 'Debian',
+      },
     }
   end
   let(:params) do

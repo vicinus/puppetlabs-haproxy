@@ -12,8 +12,12 @@ describe 'haproxy::defaults' do
   let(:title) { 'test' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      osfamily: 'RedHat',
+      networking: {
+        ip: '1.1.1.1',
+      },
+      os: {
+        family: 'RedHat',
+      },
       concat_basedir: '/dne',
     }
   end

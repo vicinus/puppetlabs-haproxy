@@ -15,7 +15,9 @@ describe 'haproxy::peer' do
       ipaddress: '1.1.1.1',
       hostname: 'dero',
       concat_basedir: '/foo',
-      osfamily: 'RedHat',
+      os: {
+        family: 'RedHat',
+      },
     }
   end
 

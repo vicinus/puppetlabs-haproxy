@@ -7,8 +7,12 @@ describe 'haproxy::userlist' do
   let(:title) { 'admins' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      osfamily: 'Redhat',
+      networking: {
+        ip: '1.1.1.1',
+      },
+      os: {
+        family: 'Redhat',
+      },
       concat_basedir: '/dne',
     }
   end

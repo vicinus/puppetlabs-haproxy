@@ -7,8 +7,12 @@ describe 'haproxy::listen' do
   let(:title) { 'tyler' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      osfamily: 'Redhat',
+      networking: {
+        ip: '1.1.1.1',
+      },
+      os: {
+        family: 'RedHat',
+      },
       concat_basedir: '/dne',
     }
   end

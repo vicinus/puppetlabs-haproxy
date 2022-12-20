@@ -7,8 +7,12 @@ describe 'haproxy::mapfile::entry' do
   let(:title) { 'example.com example-backend' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      osfamily: 'Redhat',
+      networking: {
+        ip: '1.1.1.1',
+      },
+      os: {
+        family: 'Redhat',
+      },
       concat_basedir: '/dne',
     }
   end

@@ -6,8 +6,12 @@ describe 'haproxy::backend' do
   let(:pre_condition) { 'include haproxy' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      osfamily: 'Redhat',
+      networking: {
+        ip: '1.1.1.1',
+      },
+      os: {
+        family: 'Redhat',
+      },
       concat_basedir: '/dne',
     }
   end

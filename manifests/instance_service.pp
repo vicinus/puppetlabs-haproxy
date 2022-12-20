@@ -79,7 +79,7 @@ define haproxy::instance_service (
   if ($title == 'haproxy') and ($haproxy_package == 'haproxy') {
   } else {
     $initfile = "/etc/init.d/haproxy-${title}"
-    if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
+    if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '6' {
       # init.d:
       file { $initfile:
         ensure => file,
@@ -97,7 +97,7 @@ define haproxy::instance_service (
         $wrapper = "/opt/${haproxy_package}/sbin/haproxy-systemd-wrapper"
       }
 
-      if $::osfamily == 'RedHat' {
+      if $facts['os']['family'] == 'RedHat' {
         $unitfile = "/usr/lib/systemd/system/haproxy-${title}.service"
       } else {
         $unitfile = "/lib/systemd/system/haproxy-${title}.service"

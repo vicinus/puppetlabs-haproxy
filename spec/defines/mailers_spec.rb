@@ -11,9 +11,13 @@ describe 'haproxy::mailers' do
   end
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
+      networking: {
+        ip: '1.1.1.1',
+      },
       concat_basedir: '/foo',
-      osfamily: 'RedHat',
+      os: {
+        family: 'RedHat',
+      },
     }
   end
 
