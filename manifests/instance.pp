@@ -167,18 +167,18 @@ define haproxy::instance (
   Optional[String] $service_name                               = undef,
   Optional[Hash] $global_options                               = undef,
   Optional[Hash] $defaults_options                             = undef,
-  $restart_command                                             = undef,
-  $custom_fragment                                             = undef,
-  $config_dir                                                  = undef,
+  Optional[String] $restart_command                            = undef,
+  Optional[String] $custom_fragment                            = undef,
+  Optional[Stdlib::Absolutepath] $config_dir                   = undef,
   Optional[Stdlib::Absolutepath] $config_file                  = undef,
-  $config_validate_cmd                                         = $haproxy::params::config_validate_cmd,
-  $merge_options                                               = $haproxy::params::merge_options,
-  $service_options                                             = $haproxy::params::service_options,
-  $sysconfig_options                                           = $haproxy::params::sysconfig_options,
+  Variant[Stdlib::Absolutepath, String] $config_validate_cmd   = $haproxy::params::config_validate_cmd,
+  Boolean $merge_options                                       = $haproxy::params::merge_options,
+  String $service_options                                      = $haproxy::params::service_options,
+  String $sysconfig_options                                    = $haproxy::params::sysconfig_options,
 ) {
   # Since this is a 'define', we can not use 'inherts haproxy::params'.
   # Therefore, we "include haproxy::params" for any parameters we need.
-  include ::haproxy::params
+  include haproxy::params
 
   $_global_options = pick($global_options, $haproxy::params::global_options)
   $_defaults_options = pick($defaults_options, $haproxy::params::defaults_options)

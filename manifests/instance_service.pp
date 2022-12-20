@@ -37,6 +37,9 @@
 # @param haproxy_init_source
 #   The init.d script that will start/restart/reload this instance.
 #
+# @param haproxy_unit_template
+#   The template that will be used to create an unit file.
+#
 define haproxy::instance_service (
   Optional[String] $haproxy_init_source = undef,
   String $haproxy_unit_template         = 'haproxy/instance_service_unit.erb',

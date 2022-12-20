@@ -135,24 +135,24 @@
 #  (this resource can be declared anywhere)
 #
 define haproxy::balancermember (
-  $listening_service,
-  Enum['server', 'default-server', 'server-template'] $type         = 'server',
-  $ports        = undef,
-  $port         = undef,
-  $server_names = $::hostname,
-  $ipaddresses  = $::ipaddress,
-  $prefix       = 'server',
-  $amount       = '1',
-  $fqdn         = '',
-  $options      = '',
-  $define_cookies = false,
-  $instance     = 'haproxy',
-  $defaults     = undef,
-  Optional[Stdlib::Absolutepath] $config_file  = undef,
-  $verifyhost   = false,
-  $weight       = undef,
+  String $listening_service,
+  Enum['server', 'default-server', 'server-template'] $type = 'server',
+  Optional[Variant[Array, String]] $ports                   = undef,
+  Optional[Variant[String]] $port                           = undef,
+  Variant[String[1], Array] $server_names                   = $hostname,
+  Variant[String, Array] $ipaddresses                       = $ipaddress,
+  String $prefix                                            = 'server',
+  String $amount                                            = '1',
+  Optional[String] $fqdn                                    = undef,
+  Optional[Variant[String, Array]] $options                 = undef,
+  Boolean $define_cookies                                   = false,
+  String $instance                                          = 'haproxy',
+  Optional[String] $defaults                                = undef,
+  Optional[Stdlib::Absolutepath] $config_file               = undef,
+  Boolean $verifyhost                                       = false,
+  Optional[Variant[String, Integer]] $weight                = undef,
 ) {
-  include ::haproxy::params
+  include haproxy::params
 
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'

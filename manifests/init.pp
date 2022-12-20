@@ -127,20 +127,20 @@ class haproxy (
   Boolean $chroot_dir_manage                                   = true,
   String $service_name                                         = $haproxy::params::service_name,
   String $service_options                                      = $haproxy::params::service_options,
-  $sysconfig_options                                           = $haproxy::params::sysconfig_options,
+  String $sysconfig_options                                    = $haproxy::params::sysconfig_options,
   Hash $global_options                                         = $haproxy::params::global_options,
   Hash $defaults_options                                       = $haproxy::params::defaults_options,
   Boolean $merge_options                                       = $haproxy::params::merge_options,
-  $restart_command                                             = undef,
-  $custom_fragment                                             = undef,
+  Optional[String] $restart_command                            = undef,
+  Optional[String] $custom_fragment                            = undef,
   Stdlib::Absolutepath $config_dir                             = $haproxy::params::config_dir,
   Optional[Stdlib::Absolutepath] $config_file                  = $haproxy::params::config_file,
-  $manage_config_dir                                           = $haproxy::params::manage_config_dir,
-  $config_validate_cmd                                         = $haproxy::params::config_validate_cmd,
+  Boolean $manage_config_dir                                   = $haproxy::params::manage_config_dir,
+  Variant[Stdlib::Absolutepath, String] $config_validate_cmd   = $haproxy::params::config_validate_cmd,
 
   # Deprecated
-  $manage_service                                              = undef,
-  $enable                                                      = undef,
+  Optional[Boolean] $manage_service                            = undef,
+  Optional[Boolean] $enable                                    = undef,
 ) inherits haproxy::params {
   # NOTE: These deprecating parameters are implemented in this class,
   # not in haproxy::instance.  haproxy::instance is new and therefore

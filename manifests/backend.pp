@@ -70,16 +70,16 @@
 # Jeremy Kitchen <jeremy@nationbuilder.com>
 #
 define haproxy::backend (
-  $mode                    = undef,
-  $collect_exported        = true,
-  $options                 = {
+  Optional[Enum['tcp', 'http', 'health']] $mode           = undef,
+  Boolean $collect_exported                               = true,
+  Variant[Hash, Array[Hash]] $options                     = {
     'balance' => 'roundrobin',
   },
-  $instance                = 'haproxy',
-  $section_name            = $name,
-  $sort_options_alphabetic = undef,
-  $description             = undef,
-  $defaults                = undef,
+  String $instance                                        = 'haproxy',
+  String[1] $section_name                                 = $name,
+  Boolean $sort_options_alphabetic              = true,
+  Optional[String] $description                           = undef,
+  Optional[String] $defaults                              = undef,
   Optional[Stdlib::Absolutepath] $config_file             = undef,
 ) {
   if defined(Haproxy::Listen[$section_name]) {

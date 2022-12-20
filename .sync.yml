@@ -13,6 +13,8 @@ Gemfile:
     - gem: github_changelog_generator
 Rakefile:
   changelog_user: puppetlabs
+  extra_disabled_lint_checks:
+    - anchor_resource
 spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true
@@ -33,12 +35,3 @@ spec/spec_helper.rb:
   unmanaged: false
 .travis.yml:
   delete: true
-Rakefile:
-  extra_disabled_lint_checks:
-    - top_scope_facts
-    - parameter_types
-    - relative_classname_inclusion
-    - parameter_documentation
-    - legacy_facts
-    - anchor_resource
-    - topscope_variable

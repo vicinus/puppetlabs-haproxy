@@ -27,7 +27,7 @@ define haproxy::peers (
   Optional[Stdlib::Absolutepath] $config_file = undef,
 ) {
   # We derive these settings so that the caller only has to specify $instance.
-  include ::haproxy::params
+  include haproxy::params
 
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'

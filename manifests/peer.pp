@@ -29,21 +29,24 @@
 #   Assumes that the parent directory exists.
 #   Default: $haproxy::params::config_file
 # 
+# @param instance
+#  The instance name of the mailer entry. Default value: 'haproxy'.
+#
 # @note
 #   Automatic discovery of peer nodes may be implemented by exporting the peer resource
 #   for all HAProxy balancer servers that are configured in the same HA block and
 #   then collecting them on all load balancers.
 #
 define haproxy::peer (
-  $peers_name,
-  $port,
-  $server_names                               = $::hostname,
-  $ipaddresses                                = $::ipaddress,
-  $instance                                   = 'haproxy',
+  String $peers_name,
+  Variant[String, Integer] $port,
+  Variant[String[1], Array] $server_names     = $hostname,
+  Variant[String, Array] $ipaddresses         = $ipaddress,
+  String $instance                            = 'haproxy',
   Optional[Stdlib::Absolutepath] $config_file = undef,
 
 ) {
-  include ::haproxy::params
+  include haproxy::params
 
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'

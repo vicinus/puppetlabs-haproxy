@@ -91,25 +91,25 @@
 # Gary Larizza <gary@puppetlabs.com>
 #
 define haproxy::frontend (
-  $ports                                       = undef,
-  $ipaddress                                   = undef,
-  Optional[Hash] $bind                         = undef,
-  $mode                                        = undef,
-  $collect_exported                            = true,
-  $options                                     = {
-    'option'                                  => [
+  Optional[Variant[Array, String]] $ports       = undef,
+  Optional[Variant[String, Array]] $ipaddress   = undef,
+  Optional[Hash] $bind                          = undef,
+  Optional[Enum['tcp', 'http', 'health']] $mode = undef,
+  Boolean $collect_exported                     = true,
+  Variant[Hash, Array[Hash]] $options           = {
+    'option'                                    => [
       'tcplog',
     ],
   },
-  $instance                                    = 'haproxy',
-  $section_name                                = $name,
-  $sort_options_alphabetic                     = undef,
-  $description                                 = undef,
-  $defaults                                    = undef,
-  $defaults_use_backend                        = true,
-  Optional[Stdlib::Absolutepath] $config_file  = undef,
+  String $instance                              = 'haproxy',
+  String[1] $section_name                       = $name,
+  Boolean $sort_options_alphabetic              = true,
+  Optional[String] $description                 = undef,
+  Optional[String] $defaults                    = undef,
+  Boolean $defaults_use_backend                 = true,
+  Optional[Stdlib::Absolutepath] $config_file   = undef,
   # Deprecated
-  $bind_options                                = '',
+  Optional[Array] $bind_options                 = undef,
 ) {
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')
@@ -121,7 +121,7 @@ define haproxy::frontend (
     warning('The $bind_options parameter is deprecated; please use $bind instead')
   }
 
-  include ::haproxy::params
+  include haproxy::params
 
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
