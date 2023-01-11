@@ -22,9 +22,9 @@
 #   Boolean. Defaults to true
 #
 define haproxy::peers (
-  Boolean $collect_exported = true,
-  String $instance = 'haproxy',
-  Optional[Stdlib::Absolutepath] $config_file = undef,
+  Boolean                         $collect_exported = true,
+  String                          $instance         = 'haproxy',
+  Optional[Stdlib::Absolutepath]  $config_file      = undef,
 ) {
   # We derive these settings so that the caller only has to specify $instance.
   include haproxy::params

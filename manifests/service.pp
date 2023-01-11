@@ -4,11 +4,11 @@
 define haproxy::service (
   # lint:ignore:140chars
   String $instance_name,
-  Variant[Enum['running', 'stopped'], Boolean] $service_ensure,
-  Boolean $service_manage,
-  Optional[String] $restart_command = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed. << Update 16/12/22 default still required
-  String $service_options = $haproxy::params::service_options,
-  String $sysconfig_options = $haproxy::params::sysconfig_options,
+  Variant[Enum['running', 'stopped'], Boolean]  $service_ensure,
+  Boolean                                       $service_manage,
+  Optional[String]                              $restart_command = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed. << Update 16/12/22 default still required
+  String                                        $service_options = $haproxy::params::service_options,
+  String                                        $sysconfig_options = $haproxy::params::sysconfig_options,
   # lint:endignore
 ) {
   if $caller_module_name != $module_name {

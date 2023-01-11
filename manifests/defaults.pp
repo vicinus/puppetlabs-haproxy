@@ -20,9 +20,9 @@
 #   Optional. Defaults to 'haproxy'.
 #
 define haproxy::defaults (
-  Hash $options            = {},
-  Boolean $sort_options_alphabetic = true,
-  String $instance                = 'haproxy',
+  Hash    $options                  = {},
+  Boolean $sort_options_alphabetic  = true,
+  String  $instance                 = 'haproxy',
 ) {
   if $instance == 'haproxy' {
     include haproxy

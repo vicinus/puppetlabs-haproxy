@@ -13,8 +13,6 @@ Gemfile:
     - gem: github_changelog_generator
 Rakefile:
   changelog_user: puppetlabs
-  extra_disabled_lint_checks:
-    - anchor_resource
 spec/spec_helper.rb:
   mock_with: ":rspec"
   coverage_report: true

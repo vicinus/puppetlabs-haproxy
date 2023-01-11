@@ -12,7 +12,7 @@
 #
 define haproxy::mailers (
   Boolean $collect_exported = true,
-  String $instance          = 'haproxy',
+  String  $instance         = 'haproxy',
 ) {
   # We derive these settings so that the caller only has to specify $instance.
   include haproxy::params

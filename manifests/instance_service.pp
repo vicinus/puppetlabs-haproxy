@@ -41,10 +41,10 @@
 #   The template that will be used to create an unit file.
 #
 define haproxy::instance_service (
-  Optional[String] $haproxy_init_source = undef,
-  String $haproxy_unit_template         = 'haproxy/instance_service_unit.erb',
-  String $haproxy_package               = 'haproxy',
-  Stdlib::Absolutepath $bindir          = '/opt/haproxy/bin',
+  Optional[String]      $haproxy_init_source    = undef,
+  String                $haproxy_unit_template  = 'haproxy/instance_service_unit.erb',
+  String                $haproxy_package        = 'haproxy',
+  Stdlib::Absolutepath  $bindir                 = '/opt/haproxy/bin',
 ) {
   ensure_resource('package', $haproxy_package, {
       'ensure' => 'present',

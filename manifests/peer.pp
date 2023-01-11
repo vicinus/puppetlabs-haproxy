@@ -38,12 +38,12 @@
 #   then collecting them on all load balancers.
 #
 define haproxy::peer (
-  String $peers_name,
-  Variant[String, Integer] $port,
-  Variant[String[1], Array] $server_names     = $hostname,
-  Variant[String, Array] $ipaddresses         = $ipaddress,
-  String $instance                            = 'haproxy',
-  Optional[Stdlib::Absolutepath] $config_file = undef,
+  String                          $peers_name,
+  Variant[String, Integer]        $port,
+  Variant[String[1], Array]       $server_names = $hostname,
+  Variant[String, Array]          $ipaddresses  = $ipaddress,
+  String                          $instance     = 'haproxy',
+  Optional[Stdlib::Absolutepath]  $config_file  = undef,
 
 ) {
   include haproxy::params
