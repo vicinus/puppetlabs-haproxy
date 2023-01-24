@@ -11,14 +11,14 @@
 #   Boolean. Defaults to true.
 #
 define haproxy::mailers (
-  $collect_exported = true,
-  $instance         = 'haproxy',
+  Boolean $collect_exported = true,
+  String  $instance         = 'haproxy',
 ) {
   # We derive these settings so that the caller only has to specify $instance.
-  include ::haproxy::params
+  include haproxy::params
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $::haproxy::config_file
+    $config_file = $haproxy::config_file
   } else {
     $instance_name = "haproxy-${instance}"
     $config_file = inline_template($haproxy::params::config_file_tmpl)

@@ -9,7 +9,9 @@ describe 'haproxy::balancermember' do
     {
       ipaddress: '1.1.1.1',
       hostname: 'dero',
-      osfamily: 'Redhat',
+      os: {
+        family: 'Redhat',
+      },
       concat_basedir: '/dne',
     }
   end

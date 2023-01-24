@@ -96,19 +96,19 @@
 # Ricardo Rosales <missingcharacter@gmail.com>
 #
 define haproxy::resolver (
-  Hash $nameservers       = {},
-  Boolean $parse_resolv_conf                          = false,
-  $hold                                               = undef,
-  $resolve_retries                                    = undef,
-  $timeout                                            = undef,
+  Hash                            $nameservers              = {},
+  Boolean                         $parse_resolv_conf        = false,
+  Optional[Hash]                  $hold                     = undef,
+  Optional[Integer]               $resolve_retries          = undef,
+  Optional[Hash]                  $timeout                  = undef,
   # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
-  Optional[Integer[512, 8192]] $accepted_payload_size = undef,
-  $instance                                           = 'haproxy',
-  $section_name                                       = $name,
-  $sort_options_alphabetic                            = undef,
-  $collect_exported                                   = true,
-  $config_file                                        = undef,
-  $defaults                                           = undef,
+  Optional[Integer[512, 8192]]    $accepted_payload_size    = undef,
+  String                          $instance                 = 'haproxy',
+  String[1]                       $section_name             = $name,
+  Boolean                         $sort_options_alphabetic  = true,
+  Boolean                         $collect_exported         = true,
+  Optional[Stdlib::Absolutepath]  $config_file              = undef,
+  Optional[String]                $defaults                 = undef,
 ) {
   include haproxy::params
 

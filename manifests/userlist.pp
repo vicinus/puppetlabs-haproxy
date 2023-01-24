@@ -37,10 +37,10 @@ define haproxy::userlist (
   Optional[Array[Variant[String, Sensitive[String]]]] $users        = undef,
   Optional[Array[String]]                             $groups       = undef,
   String                                              $instance     = 'haproxy',
-  String                                              $section_name = $name,
+  String[1]                                           $section_name = $name,
   Optional[Stdlib::Absolutepath]                      $config_file  = undef,
 ) {
-  include ::haproxy::params
+  include haproxy::params
 
   $content = epp(
     'haproxy/haproxy_userlist_block.epp',

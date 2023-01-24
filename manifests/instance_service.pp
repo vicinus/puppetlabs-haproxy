@@ -37,11 +37,14 @@
 # @param haproxy_init_source
 #   The init.d script that will start/restart/reload this instance.
 #
+# @param haproxy_unit_template
+#   The template that will be used to create an unit file.
+#
 define haproxy::instance_service (
-  Optional[String] $haproxy_init_source = undef,
-  String $haproxy_unit_template         = 'haproxy/instance_service_unit.erb',
-  String $haproxy_package               = 'haproxy',
-  Stdlib::Absolutepath $bindir          = '/opt/haproxy/bin',
+  Optional[String]      $haproxy_init_source    = undef,
+  String                $haproxy_unit_template  = 'haproxy/instance_service_unit.erb',
+  String                $haproxy_package        = 'haproxy',
+  Stdlib::Absolutepath  $bindir                 = '/opt/haproxy/bin',
 ) {
   ensure_resource('package', $haproxy_package, {
       'ensure' => 'present',
@@ -76,7 +79,7 @@ define haproxy::instance_service (
   if ($title == 'haproxy') and ($haproxy_package == 'haproxy') {
   } else {
     $initfile = "/etc/init.d/haproxy-${title}"
-    if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
+    if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '6' {
       # init.d:
       file { $initfile:
         ensure => file,
@@ -94,7 +97,7 @@ define haproxy::instance_service (
         $wrapper = "/opt/${haproxy_package}/sbin/haproxy-systemd-wrapper"
       }
 
-      if $::osfamily == 'RedHat' {
+      if $facts['os']['family'] == 'RedHat' {
         $unitfile = "/usr/lib/systemd/system/haproxy-${title}.service"
       } else {
         $unitfile = "/lib/systemd/system/haproxy-${title}.service"

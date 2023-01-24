@@ -35,18 +35,18 @@
 #   multiple HAproxy instances. Default: `[ 'haproxy' ]`
 #
 define haproxy::mapfile (
-  Array[Variant[String, Hash]] $mappings = [],
-  Enum['present', 'absent']    $ensure   = 'present',
-  $owner                                 = 'root',
-  $group                                 = 'root',
-  $mode                                  = '0644',
-  Array $instances                       = ['haproxy'],
+  Array[Variant[String, Hash]]  $mappings   = [],
+  Enum['present', 'absent']     $ensure     = 'present',
+  String                        $owner      = 'root',
+  String                        $group      = 'root',
+  String                        $mode       = '0644',
+  Array                         $instances  = ['haproxy'],
 ) {
   $mapfile_name = $title
 
   $_instances = flatten($instances)
 
-  $_mapfile_name = "${::haproxy::config_dir}/${mapfile_name}.map"
+  $_mapfile_name = "${haproxy::config_dir}/${mapfile_name}.map"
 
   concat { "haproxy_mapfile_${mapfile_name}":
     ensure => $ensure,

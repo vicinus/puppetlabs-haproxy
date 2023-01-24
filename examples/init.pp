@@ -1,8 +1,8 @@
 # Declare haproxy base class with configuration options
-class { '::haproxy':
+class { 'haproxy':
   enable           => true,
   global_options   => {
-    'log'     => "${::ipaddress} local0",
+    'log'     => "${$facts['networking']['ip']} local0",
     'chroot'  => '/var/lib/haproxy',
     'pidfile' => '/var/run/haproxy.pid',
     'maxconn' => '4000',
@@ -33,8 +33,8 @@ class { '::haproxy':
 @@haproxy::balancermember { $fqdn:
   order                  => '21',
   listening_service      => 'puppet00',
-  server_name            => $::hostname,
-  balancer_ip            => $::ipaddress,
+  server_name            => $facts['networking']['hostname'],
+  balancer_ip            => $facts['networking']['ip'],
   balancer_port          => '8140',
   balancermember_options => 'check',
 }
@@ -45,7 +45,7 @@ class { '::haproxy':
 #  Haproxy::Balancermember <<| listening_service == $name |>>
 haproxy::listen { 'puppet00':
   order     => '20',
-  ipaddress => $::ipaddress,
+  ipaddress => $facts['networking']['ip'],
   ports     => '18140',
   options   => {
     'option'  => [

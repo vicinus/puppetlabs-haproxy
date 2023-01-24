@@ -20,20 +20,20 @@
 #   Optional. Defaults to 'haproxy'.
 #
 define haproxy::defaults (
-  $options                 = {},
-  $sort_options_alphabetic = undef,
-  $instance                = 'haproxy',
+  Hash    $options                  = {},
+  Boolean $sort_options_alphabetic  = true,
+  String  $instance                 = 'haproxy',
 ) {
   if $instance == 'haproxy' {
-    include ::haproxy
+    include haproxy
     $instance_name = 'haproxy'
     $config_file = $haproxy::config_file
   } else {
-    include ::haproxy::params
+    include haproxy::params
     $instance_name = "haproxy-${instance}"
     $config_file = inline_template($haproxy::params::config_file_tmpl)
   }
-  include ::haproxy::globals
+  include haproxy::globals
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
   concat::fragment { "${instance_name}-${name}_defaults_block":

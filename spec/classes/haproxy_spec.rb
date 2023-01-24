@@ -6,7 +6,9 @@ describe 'haproxy', type: :class do
   let(:default_facts) do
     {
       concat_basedir: '/dne',
-      ipaddress: '10.10.10.10',
+      networking: {
+        ip: '10.10.10.10',
+      },
     }
   end
 
@@ -14,7 +16,7 @@ describe 'haproxy', type: :class do
     ['Debian', 'RedHat', 'Archlinux', 'FreeBSD', 'Gentoo'].each do |osfamily|
       context "on #{osfamily} family operatingsystems" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           {
@@ -38,7 +40,7 @@ describe 'haproxy', type: :class do
       end
       context "on #{osfamily} specifying a package version" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           {
@@ -63,7 +65,7 @@ describe 'haproxy', type: :class do
       # C9938
       context "on #{osfamily} when specifying custom content" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           { 'custom_fragment' => "listen stats :9090\n  mode http\n  stats uri /\n  stats auth puppet:puppet\n" }
@@ -82,7 +84,7 @@ describe 'haproxy', type: :class do
     ['Debian', 'RedHat', 'Archlinux', 'Gentoo'].each do |osfamily|
       context "on #{osfamily} family operatingsystems" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
 
         it 'sets up /etc/haproxy/haproxy.cfg as a concat resource' do
@@ -141,7 +143,7 @@ describe 'haproxy', type: :class do
       end
       context "on #{osfamily} family operatingsystems with setting haproxy.cfg location" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           {
@@ -159,7 +161,7 @@ describe 'haproxy', type: :class do
       end
       context "on #{osfamily} family operatingsystems without managing the service" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           {
@@ -230,7 +232,7 @@ describe 'haproxy', type: :class do
       end
       context "on #{osfamily} when specifying a restart_command" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           {
@@ -251,7 +253,7 @@ describe 'haproxy', type: :class do
   describe 'for freebsd' do
     context 'when on freebsd family operatingsystems' do
       let(:facts) do
-        { osfamily: 'FreeBSD' }.merge default_facts
+        { os: { family: 'FreeBSD' } }.merge default_facts
       end
 
       it 'sets up /usr/local/etc/haproxy.conf as a concat resource' do
@@ -302,7 +304,7 @@ describe 'haproxy', type: :class do
     end
     context 'when on freebsd family operatingsystems without managing the service' do
       let(:facts) do
-        { osfamily: 'FreeBSD' }.merge default_facts
+        { os: { family: 'FreeBSD' } }.merge default_facts
       end
       let(:params) do
         {
@@ -367,7 +369,7 @@ describe 'haproxy', type: :class do
     end
     context 'when on freebsd when specifying a restart_command' do
       let(:facts) do
-        { osfamily: 'FreeBSD' }.merge default_facts
+        { os: { family: 'FreeBSD' } }.merge default_facts
       end
       let(:params) do
         {
@@ -387,7 +389,7 @@ describe 'haproxy', type: :class do
   describe 'for OS-specific configuration' do
     context 'when only on Debian family operatingsystems' do
       let(:facts) do
-        { osfamily: 'Debian' }.merge default_facts
+        { os: { family: 'Debian' } }.merge default_facts
       end
 
       it 'manages haproxy service defaults' do
@@ -398,7 +400,7 @@ describe 'haproxy', type: :class do
 
     context 'when only on Gentoo family operatingsystems' do
       let(:facts) do
-        { osfamily: 'Gentoo' }.merge default_facts
+        { os: { family: 'Gentoo' } }.merge default_facts
       end
 
       it 'creates directory /etc/haproxy' do
@@ -416,7 +418,7 @@ describe 'haproxy', type: :class do
     ['Debian'].each do |osfamily|
       context "on #{osfamily} family operatingsystems" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
         let(:params) do
@@ -516,7 +518,7 @@ describe 'haproxy', type: :class do
     ['Debian'].each do |osfamily|
       context "on #{osfamily} family operatingsystems" do
         let(:facts) do
-          { osfamily: osfamily }.merge default_facts
+          { os: { family: osfamily } }.merge default_facts
         end
         let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
         let(:params) do
@@ -594,7 +596,7 @@ describe 'haproxy', type: :class do
 
   context 'when on unsupported operatingsystems' do
     let(:facts) do
-      { osfamily: 'windows' }.merge default_facts
+      { os: { family: 'windows' } }.merge default_facts
     end
 
     it do

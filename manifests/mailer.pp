@@ -29,18 +29,20 @@
 # @param port
 #  Sets the port on which the mailer is going to share the state.
 #
+# @param instance
+#  The instance name of the mailer entry. Default value: 'haproxy'.
 #
 define haproxy::mailer (
-  $mailers_name,
-  $port,
-  $server_names = $::hostname,
-  $ipaddresses  = $::ipaddress,
-  $instance     = 'haproxy',
+  String                    $mailers_name,
+  Variant[String, Integer]  $port,
+  Variant[String[1], Array] $server_names = $hostname,
+  Variant[String, Array]    $ipaddresses  = $ipaddress,
+  String                    $instance     = 'haproxy',
 ) {
-  include ::haproxy::params
+  include haproxy::params
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $::haproxy::config_file
+    $config_file = $haproxy::config_file
   } else {
     $instance_name = "haproxy-${instance}"
     $config_file = inline_template($haproxy::params::config_file_tmpl)

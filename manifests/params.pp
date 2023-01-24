@@ -12,12 +12,12 @@ class haproxy::params {
   $service_options  = "ENABLED=1\n"  # Only used by Debian.
   $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse', 'Linux' : {
       $package_name      = 'haproxy'
       $service_name      = 'haproxy'
       $global_options    = {
-        'log'     => "${::ipaddress} local0",
+        'log'     => "${$facts['networking']['ip']} local0",
         'chroot'  => '/var/lib/haproxy',
         'pidfile' => '/var/run/haproxy.pid',
         'maxconn' => '4000',
@@ -86,7 +86,7 @@ class haproxy::params {
       $config_dir_tmpl  = '/usr/local/etc/<%= @instance_name %>'
       $config_file_tmpl = "${config_dir_tmpl}/<%= @instance_name %>.conf"
     }
-    default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }
+    default: { fail("The ${$facts['os']['family']} operating system is not supported with the haproxy module") }
   }
 }
 

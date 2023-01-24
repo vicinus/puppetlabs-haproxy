@@ -6,9 +6,13 @@ describe 'haproxy::resolver' do
   let(:pre_condition) { 'include haproxy' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
+      networking: {
+        ip: '1.1.1.1',
+      },
       concat_basedir: '/dne',
-      osfamily: 'RedHat',
+      os: {
+        family: 'RedHat',
+      },
     }
   end
 
