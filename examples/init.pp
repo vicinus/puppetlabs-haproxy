@@ -2,7 +2,7 @@
 class { 'haproxy':
   enable           => true,
   global_options   => {
-    'log'     => "${$facts['networking']['ip']} local0",
+    'log'     => "${facts['networking']['ip']} local0",
     'chroot'  => '/var/lib/haproxy',
     'pidfile' => '/var/run/haproxy.pid',
     'maxconn' => '4000',
