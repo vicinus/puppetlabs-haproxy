@@ -17,7 +17,7 @@ class haproxy::params {
       $package_name      = 'haproxy'
       $service_name      = 'haproxy'
       $global_options    = {
-        'log'     => "${$facts['networking']['ip']} local0",
+        'log'     => "${facts['networking']['ip']} local0",
         'chroot'  => '/var/lib/haproxy',
         'pidfile' => '/var/run/haproxy.pid',
         'maxconn' => '4000',
@@ -86,7 +86,7 @@ class haproxy::params {
       $config_dir_tmpl  = '/usr/local/etc/<%= @instance_name %>'
       $config_file_tmpl = "${config_dir_tmpl}/<%= @instance_name %>.conf"
     }
-    default: { fail("The ${$facts['os']['family']} operating system is not supported with the haproxy module") }
+    default: { fail("The ${facts['os']['family']} operating system is not supported with the haproxy module") }
   }
 }
 
