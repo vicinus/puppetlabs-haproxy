@@ -3,15 +3,15 @@
 # @api private
 define haproxy::config (
   # lint:ignore:140chars
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure,
   String                                $instance_name,
   Stdlib::Absolutepath                  $config_file,
   Hash                                  $global_options,
   Hash                                  $defaults_options,
-  String[1]                             $package_ensure,
   Boolean                               $chroot_dir_manage,
-  Stdlib::Absolutepath                  $config_dir = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
-  Optional[String]                      $custom_fragment = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed. << Update 15/12/22 This still needs a default.
-  Boolean                               $merge_options = $haproxy::merge_options,
+  Stdlib::Absolutepath                  $config_dir          = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
+  Optional[String]                      $custom_fragment     = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed. << Update 15/12/22 This still needs a default.
+  Boolean                               $merge_options       = $haproxy::merge_options,
   Variant[Stdlib::Absolutepath, String] $config_validate_cmd = $haproxy::config_validate_cmd,
   # lint:endignore
 ) {

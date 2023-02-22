@@ -39,7 +39,7 @@
 #
 define haproxy::peer (
   String                          $peers_name,
-  Variant[String, Integer]        $port,
+  Variant[String, Stdlib::Port]   $port,
   Variant[String[1], Array]       $server_names = $hostname,
   Variant[String, Array]          $ipaddresses  = $ipaddress,
   String                          $instance     = 'haproxy',

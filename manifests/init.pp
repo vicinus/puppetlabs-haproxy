@@ -120,7 +120,7 @@
 #  }
 #
 class haproxy (
-  String[1]                                     $package_ensure       = 'present',
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure = 'present',
   String                                        $package_name         = $haproxy::params::package_name,
   Variant[Enum['running', 'stopped'], Boolean]  $service_ensure       = 'running',
   Boolean                                       $service_manage       = true,

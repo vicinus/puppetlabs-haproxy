@@ -33,11 +33,11 @@
 #  The instance name of the mailer entry. Default value: 'haproxy'.
 #
 define haproxy::mailer (
-  String                    $mailers_name,
-  Variant[String, Integer]  $port,
-  Variant[String[1], Array] $server_names = $hostname,
-  Variant[String, Array]    $ipaddresses  = $ipaddress,
-  String                    $instance     = 'haproxy',
+  String                        $mailers_name,
+  Variant[String, Stdlib::Port] $port,
+  Variant[String[1], Array]     $server_names = $hostname,
+  Variant[String, Array]        $ipaddresses  = $ipaddress,
+  String                        $instance     = 'haproxy',
 ) {
   include haproxy::params
   if $instance == 'haproxy' {

@@ -3,7 +3,7 @@
 # @api private
 define haproxy::install (
   # lint:ignore:140chars
-  String[1]         $package_ensure,
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure,
   Optional[String]  $package_name     = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   # lint:endignore
 ) {
