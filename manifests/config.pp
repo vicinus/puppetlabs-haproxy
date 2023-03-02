@@ -9,8 +9,8 @@ define haproxy::config (
   Hash                                  $global_options,
   Hash                                  $defaults_options,
   Boolean                               $chroot_dir_manage,
-  Stdlib::Absolutepath                  $config_dir          = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
-  Optional[String]                      $custom_fragment     = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed. << Update 15/12/22 This still needs a default.
+  Stdlib::Absolutepath                  $config_dir          = undef,
+  Optional[String]                      $custom_fragment     = undef,
   Boolean                               $merge_options       = $haproxy::merge_options,
   Variant[Stdlib::Absolutepath, String] $config_validate_cmd = $haproxy::config_validate_cmd,
   # lint:endignore
