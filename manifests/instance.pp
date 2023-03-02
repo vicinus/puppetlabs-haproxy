@@ -159,22 +159,22 @@
 #   call haproxy::instance_service.
 #
 define haproxy::instance (
-  Optional[String]                              $package_name         = undef,
-  String[1]                                     $package_ensure       = 'present',
-  Variant[Enum['running', 'stopped'], Boolean]  $service_ensure       = 'running',
-  Boolean                                       $service_manage       = true,
-  Boolean                                       $chroot_dir_manage    = true,
-  Optional[String]                              $service_name         = undef,
-  Optional[Hash]                                $global_options       = undef,
-  Optional[Hash]                                $defaults_options     = undef,
-  Optional[String]                              $restart_command      = undef,
-  Optional[String]                              $custom_fragment      = undef,
-  Optional[Stdlib::Absolutepath]                $config_dir           = undef,
-  Optional[Stdlib::Absolutepath]                $config_file          = undef,
-  Variant[Stdlib::Absolutepath, String]         $config_validate_cmd  = $haproxy::params::config_validate_cmd,
-  Boolean                                       $merge_options        = $haproxy::params::merge_options,
-  String                                        $service_options      = $haproxy::params::service_options,
-  String                                        $sysconfig_options    = $haproxy::params::sysconfig_options,
+  Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure = 'present',
+  Optional[String]                             $package_name         = undef,
+  Variant[Enum['running', 'stopped'], Boolean] $service_ensure       = 'running',
+  Boolean                                      $service_manage       = true,
+  Boolean                                      $chroot_dir_manage    = true,
+  Optional[String]                             $service_name         = undef,
+  Optional[Hash]                               $global_options       = undef,
+  Optional[Hash]                               $defaults_options     = undef,
+  Optional[String]                             $restart_command      = undef,
+  Optional[String]                             $custom_fragment      = undef,
+  Optional[Stdlib::Absolutepath]               $config_dir           = undef,
+  Optional[Stdlib::Absolutepath]               $config_file          = undef,
+  Variant[Stdlib::Absolutepath, String]        $config_validate_cmd  = $haproxy::params::config_validate_cmd,
+  Boolean                                      $merge_options        = $haproxy::params::merge_options,
+  String                                       $service_options      = $haproxy::params::service_options,
+  String                                       $sysconfig_options    = $haproxy::params::sysconfig_options,
 ) {
   # Since this is a 'define', we can not use 'inherts haproxy::params'.
   # Therefore, we "include haproxy::params" for any parameters we need.

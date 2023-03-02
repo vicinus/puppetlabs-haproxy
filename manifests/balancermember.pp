@@ -138,7 +138,7 @@ define haproxy::balancermember (
   String                                              $listening_service,
   Enum['server', 'default-server', 'server-template'] $type               = 'server',
   Optional[Variant[Array, String]]                    $ports              = undef,
-  Optional[Variant[String]]                           $port               = undef,
+  Optional[Variant[String, Stdlib::Port]]             $port               = undef,
   Variant[String[1], Array]                           $server_names       = $hostname,
   Variant[String, Array]                              $ipaddresses        = $ipaddress,
   String                                              $prefix             = 'server',
