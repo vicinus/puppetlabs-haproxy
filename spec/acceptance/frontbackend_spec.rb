@@ -6,7 +6,7 @@ describe 'frontend backend defines' do
   pp_one = <<-PUPPETCODE
       class { 'haproxy': }
       haproxy::frontend { 'app00':
-        ipaddress => $::ipaddress_lo,
+        ipaddress => $facts['networking']['interfaces']['lo']['ip'],
         mode      => 'http',
         ports     => '5555',
         options   => { 'default_backend' => 'app00' },
@@ -48,7 +48,7 @@ describe 'frontend backend defines' do
   pp_two = <<-PUPPETCODE
       class { 'haproxy': }
       haproxy::frontend { 'app00':
-        ipaddress => $::ipaddress_lo,
+        ipaddress => $facts['networking']['interfaces']['lo']['ip'],
         mode      => 'http',
         ports     => '5555',
         options   => { 'default_backend' => 'app00' },

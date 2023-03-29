@@ -12,8 +12,10 @@ describe 'haproxy::mailer' do
   let(:title) { 'dero' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      hostname: 'dero',
+      networking: {
+        ip: '1.1.1.1',
+        hostname: 'dero',
+      },
       concat_basedir: '/foo',
       os: {
         family: 'RedHat',

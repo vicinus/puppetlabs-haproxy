@@ -19,7 +19,7 @@ describe 'userlist define', unless: (os[:family] == 'redhat' && os[:release][0] 
 
       haproxy::listen { 'app00':
         collect_exported => false,
-        ipaddress        => $::ipaddress_lo,
+        ipaddress        => $facts['networking']['interfaces']['lo']['ip'],
         ports            => '5555',
         options          => {
           'mode'         => 'http',
@@ -35,7 +35,7 @@ describe 'userlist define', unless: (os[:family] == 'redhat' && os[:release][0] 
 
       haproxy::listen { 'app01':
         collect_exported => false,
-        ipaddress        => $::ipaddress_lo,
+        ipaddress        => $facts['networking']['interfaces']['lo']['ip'],
         ports            => '5554',
         options          => {
           'mode'         => 'http',

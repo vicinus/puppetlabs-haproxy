@@ -7,8 +7,10 @@ describe 'haproxy::balancermember' do
   let(:title) { 'tyler' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      hostname: 'dero',
+      networking: {
+        ip: '1.1.1.1',
+        hostname: 'dero',
+      },
       os: {
         family: 'Redhat',
       },

@@ -35,8 +35,8 @@
 define haproxy::mailer (
   String                        $mailers_name,
   Variant[String, Stdlib::Port] $port,
-  Variant[String[1], Array]     $server_names = $hostname,
-  Variant[String, Array]        $ipaddresses  = $ipaddress,
+  Variant[String[1], Array]     $server_names = $facts['networking']['hostname'],
+  Variant[String, Array]        $ipaddresses  = $facts['networking']['ip'],
   String                        $instance     = 'haproxy',
 ) {
   include haproxy::params
