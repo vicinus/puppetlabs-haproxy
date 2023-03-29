@@ -77,7 +77,7 @@ describe 'create mapfiles' do
         file_line {'localhost':
           path  => '/etc/hosts',
           line  => '127.0.0.1 localhost host2 host3',
-          match => '^127\.0\.0\.1',
+          match => '^127.0.0.1',
         }
         include ::haproxy
         haproxy::mapfile { 'single-mapfile':
@@ -166,7 +166,7 @@ describe 'create mapfiles' do
         file_line {'localhost':
           path  => '/etc/hosts',
           line  => '127.0.0.1 localhost host2 host3',
-          match => '^127\.0\.0\.1',
+          match => '^127.0.0.1',
         }
         include ::haproxy
         haproxy::mapfile { 'multiple-mapfiles':

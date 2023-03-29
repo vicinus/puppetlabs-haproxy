@@ -84,7 +84,7 @@ describe 'haproxy::instance' do
 
           it 'sets the haproxy package' do
             subject.should contain_concat__fragment('haproxy-haproxy-base').with_content(
-              %r{listen stats :9090\n  mode http\n  stats uri \/\n  stats auth puppet:puppet\n},
+              %r{listen stats :9090\n  mode http\n  stats uri /\n  stats auth puppet:puppet\n},
             )
           end
         end
@@ -310,7 +310,7 @@ describe 'haproxy::instance' do
 
           it 'sets the haproxy-group1 package' do
             subject.should contain_concat__fragment('haproxy-group1-haproxy-base').with_content(
-              %r{listen stats :9090\n  mode http\n  stats uri \/\n  stats auth puppet:puppet\n},
+              %r{listen stats :9090\n  mode http\n  stats uri /\n  stats auth puppet:puppet\n},
             )
           end
         end
@@ -666,5 +666,4 @@ describe 'haproxy::instance' do
       }.to raise_error(Puppet::Error, %r{operating system is not supported with the haproxy module})
     end
   end
-  # rubocop:enable RSpec/NestedGroups
 end

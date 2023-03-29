@@ -44,9 +44,7 @@ RSpec.configure do |c|
 
     if os[:family] == 'redhat' && os[:release].to_i != 8
       epel_owner = 'puppet'
-      if os[:release].to_i == 6
-        epel_owner = 'stahnma'
-      end
+      epel_owner = 'stahnma' if os[:release].to_i == 6
       LitmusHelper.instance.run_shell("puppet module install #{epel_owner}/epel")
       if os[:release][0].match?(%r{5|6})
         pp = <<-PP
