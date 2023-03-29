@@ -34,8 +34,8 @@ describe 'haproxy::userlist' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-admins_userlist_block').with(
-        'order'   => '12-admins-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '12-admins-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nuserlist admins\n  group superadmins users kitchen scott\n  group megaadmins users kitchen\n  user scott insecure-password elgato\n  user kitchen insecure-password foobar\n",
       )
     }

@@ -31,7 +31,7 @@ describe 'haproxy::instance' do
             {
               'service_ensure' => 'running',
               'package_ensure' => 'present',
-              'package_name'   => 'haproxy',
+              'package_name' => 'haproxy',
               'service_manage' => true,
             }
           end
@@ -56,7 +56,7 @@ describe 'haproxy::instance' do
             {
               'service_ensure' => 'running',
               'package_ensure' => '1.7.9-1',
-              'package_name'   => 'haproxy',
+              'package_name' => 'haproxy',
               'service_manage' => true,
             }
           end
@@ -102,27 +102,27 @@ describe 'haproxy::instance' do
             subject.should contain_concat('/etc/haproxy/haproxy.cfg').with(
               'owner' => '0',
               'group' => '0',
-              'mode'  => '0640',
+              'mode' => '0640',
             )
           end
           it 'manages the chroot directory' do
             subject.should contain_file('/var/lib/haproxy').with(
               'ensure' => 'directory',
-              'owner'  => 'haproxy',
-              'group'  => 'haproxy',
+              'owner' => 'haproxy',
+              'group' => 'haproxy',
             )
           end
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-00-header').with(
-              'target'  => '/etc/haproxy/haproxy.cfg',
-              'order'   => '01',
+              'target' => '/etc/haproxy/haproxy.cfg',
+              'order' => '01',
               'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-haproxy-base').with(
-              'target'  => '/etc/haproxy/haproxy.cfg',
-              'order'   => '10',
+              'target' => '/etc/haproxy/haproxy.cfg',
+              'order' => '10',
             )
           end
           describe 'Base concat fragment contents' do
@@ -160,7 +160,7 @@ describe 'haproxy::instance' do
             {
               'service_ensure' => true,
               'package_ensure' => 'present',
-              'package_name'   => 'haproxy',
+              'package_name' => 'haproxy',
               'service_manage' => false,
             }
           end
@@ -177,7 +177,7 @@ describe 'haproxy::instance' do
             subject.should contain_concat('/etc/haproxy/haproxy.cfg').with(
               'owner' => '0',
               'group' => '0',
-              'mode'  => '0640',
+              'mode' => '0640',
             )
           end
           it 'manages the chroot directory' do
@@ -187,15 +187,15 @@ describe 'haproxy::instance' do
           end
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-00-header').with(
-              'target'  => '/etc/haproxy/haproxy.cfg',
-              'order'   => '01',
+              'target' => '/etc/haproxy/haproxy.cfg',
+              'order' => '01',
               'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-haproxy-base').with(
-              'target'  => '/etc/haproxy/haproxy.cfg',
-              'order'   => '10',
+              'target' => '/etc/haproxy/haproxy.cfg',
+              'order' => '10',
             )
           end
           describe 'Base concat fragment contents' do
@@ -245,7 +245,7 @@ describe 'haproxy::instance' do
           let(:params) do
             {
               'restart_command' => '/etc/init.d/haproxy reload',
-              'service_manage'  => true,
+              'service_manage' => true,
             }
           end
 
@@ -274,7 +274,7 @@ describe 'haproxy::instance' do
             {
               'service_ensure' => 'running',
               'package_ensure' => 'present',
-              'package_name'   => 'customhaproxy',
+              'package_name' => 'customhaproxy',
               'service_manage' => true,
             }
           end
@@ -328,27 +328,27 @@ describe 'haproxy::instance' do
             subject.should contain_concat('/etc/haproxy-group1/haproxy-group1.cfg').with(
               'owner' => '0',
               'group' => '0',
-              'mode'  => '0640',
+              'mode' => '0640',
             )
           end
           it 'manages the chroot directory' do
             subject.should contain_file('/var/lib/haproxy').with(
               'ensure' => 'directory',
-              'owner'  => 'haproxy',
-              'group'  => 'haproxy',
+              'owner' => 'haproxy',
+              'group' => 'haproxy',
             )
           end
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-00-header').with(
-              'target'  => '/etc/haproxy-group1/haproxy-group1.cfg',
-              'order'   => '01',
+              'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
+              'order' => '01',
               'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-group1-haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-haproxy-base').with(
-              'target'  => '/etc/haproxy-group1/haproxy-group1.cfg',
-              'order'   => '10',
+              'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
+              'order' => '10',
             )
           end
           describe 'Base concat fragment contents' do
@@ -386,7 +386,7 @@ describe 'haproxy::instance' do
             {
               'service_ensure' => true,
               'package_ensure' => 'present',
-              'package_name'   => 'customhaproxy',
+              'package_name' => 'customhaproxy',
               'service_manage' => false,
             }
           end
@@ -403,7 +403,7 @@ describe 'haproxy::instance' do
             subject.should contain_concat('/etc/haproxy-group1/haproxy-group1.cfg').with(
               'owner' => '0',
               'group' => '0',
-              'mode'  => '0640',
+              'mode' => '0640',
             )
           end
           it 'manages the chroot directory' do
@@ -413,15 +413,15 @@ describe 'haproxy::instance' do
           end
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-00-header').with(
-              'target'  => '/etc/haproxy-group1/haproxy-group1.cfg',
-              'order'   => '01',
+              'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
+              'order' => '01',
               'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-group1-haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-haproxy-base').with(
-              'target'  => '/etc/haproxy-group1/haproxy-group1.cfg',
-              'order'   => '10',
+              'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
+              'order' => '10',
             )
           end
           describe 'Base concat fragment contents' do
@@ -457,7 +457,7 @@ describe 'haproxy::instance' do
           let(:params) do
             {
               'restart_command' => '/etc/init.d/haproxy-group1 reload',
-              'service_manage'  => true,
+              'service_manage' => true,
             }
           end
 
@@ -484,7 +484,7 @@ describe 'haproxy::instance' do
           subject.should contain_concat('/usr/local/etc/haproxy.conf').with(
             'owner' => '0',
             'group' => '0',
-            'mode'  => '0640',
+            'mode' => '0640',
           )
         end
         it 'manages the chroot directory' do
@@ -494,15 +494,15 @@ describe 'haproxy::instance' do
         end
         it 'contains a header concat fragment' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
-            'target'  => '/usr/local/etc/haproxy.conf',
-            'order'   => '01',
+            'target' => '/usr/local/etc/haproxy.conf',
+            'order' => '01',
             'content' => "# This file is managed by Puppet\n",
           )
         end
         it 'contains a haproxy-base concat fragment' do
           subject.should contain_concat__fragment('haproxy-haproxy-base').with(
-            'target'  => '/usr/local/etc/haproxy.conf',
-            'order'   => '10',
+            'target' => '/usr/local/etc/haproxy.conf',
+            'order' => '10',
           )
         end
         describe 'Base concat fragment contents' do
@@ -534,7 +534,7 @@ describe 'haproxy::instance' do
           {
             'service_ensure' => true,
             'package_ensure' => 'present',
-            'package_name'   => 'haproxy',
+            'package_name' => 'haproxy',
             'service_manage' => false,
           }
         end
@@ -551,7 +551,7 @@ describe 'haproxy::instance' do
           subject.should contain_concat('/usr/local/etc/haproxy.conf').with(
             'owner' => '0',
             'group' => '0',
-            'mode'  => '0640',
+            'mode' => '0640',
           )
         end
         it 'manages the chroot directory' do
@@ -561,15 +561,15 @@ describe 'haproxy::instance' do
         end
         it 'contains a header concat fragment' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
-            'target'  => '/usr/local/etc/haproxy.conf',
-            'order'   => '01',
+            'target' => '/usr/local/etc/haproxy.conf',
+            'order' => '01',
             'content' => "# This file is managed by Puppet\n",
           )
         end
         it 'contains a haproxy-base concat fragment' do
           subject.should contain_concat__fragment('haproxy-haproxy-base').with(
-            'target'  => '/usr/local/etc/haproxy.conf',
-            'order'   => '10',
+            'target' => '/usr/local/etc/haproxy.conf',
+            'order' => '10',
           )
         end
         describe 'Base concat fragment contents' do
@@ -599,7 +599,7 @@ describe 'haproxy::instance' do
         let(:params) do
           {
             'restart_command' => '/usr/local/etc/rc.d/haproxy reload',
-            'service_manage'  => true,
+            'service_manage' => true,
           }
         end
 

@@ -31,8 +31,8 @@ describe 'haproxy::mailer' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-mailers-tyler-dero').with(
-        'order'   => '40-mailers-01-tyler-dero',
-        'target'  => '/tmp/haproxy.cfg',
+        'order' => '40-mailers-01-tyler-dero',
+        'target' => '/tmp/haproxy.cfg',
         'content' => "  mailer dero 1.1.1.1:1024\n",
       )
     }

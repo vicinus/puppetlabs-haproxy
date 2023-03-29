@@ -31,8 +31,8 @@ describe 'haproxy::defaults' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-test_defaults_block').with(
-        'order'   => '25-test',
-        'target'  => '/tmp/haproxy.cfg',
+        'order' => '25-test',
+        'target' => '/tmp/haproxy.cfg',
         'content' => "\n\ndefaults test\n  balance roundrobin\n",
       )
     }

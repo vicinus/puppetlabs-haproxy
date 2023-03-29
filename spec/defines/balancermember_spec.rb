@@ -28,8 +28,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check\n",
       )
     }
@@ -47,8 +47,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check close\n",
       )
     }
@@ -67,8 +67,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 cookie dero check close\n",
       )
     }
@@ -87,8 +87,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check close verifyhost dero\n",
       )
     }
@@ -107,8 +107,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server server01 192.168.56.200:18140 check\n  server server02 192.168.56.201:18140 check\n",
       )
     }
@@ -127,8 +127,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server server01 192.168.56.200:18140 check\n  server server01 192.168.56.200:18150 check\n  server server02 192.168.56.201:18140 check\n  server server02 192.168.56.201:18150 check\n", # rubocop:disable Layout/LineLength
       )
     }
@@ -146,8 +146,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server server01 192.168.56.200 check\n  server server02 192.168.56.201 check\n",
       )
     }
@@ -185,8 +185,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check weight 100\n",
       )
     }
@@ -204,8 +204,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 1 myserver.example.local \n",
       )
     }
@@ -224,8 +224,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 1 myserver.example.local:8080 \n",
       )
     }
@@ -245,8 +245,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 5 myserver.example.local:8080 \n",
       )
     }
@@ -266,8 +266,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 1-10 myserver.example.local:8080 \n",
       )
     }
@@ -288,8 +288,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 \n",
       )
     }
@@ -311,8 +311,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 check\n",
       )
     }
@@ -334,8 +334,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 check close\n",
       )
     }
@@ -358,8 +358,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 check weight 100\n",
       )
     }
@@ -383,8 +383,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 cookie myserver.example.local check weight 100\n",
       )
     }
@@ -409,8 +409,8 @@ describe 'haproxy::balancermember' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 cookie myserver.example.local check verifyhost myserver.example.local weight 100\n",
       )
     }

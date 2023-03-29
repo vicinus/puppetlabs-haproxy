@@ -31,8 +31,8 @@ describe 'haproxy::peer' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-peers-tyler-dero').with(
-        'order'   => '30-peers-01-tyler-dero',
-        'target'  => '/tmp/haproxy.cfg',
+        'order' => '30-peers-01-tyler-dero',
+        'target' => '/tmp/haproxy.cfg',
         'content' => "  peer dero 1.1.1.1:1024\n",
       )
     }

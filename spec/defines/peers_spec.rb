@@ -26,8 +26,8 @@ describe 'haproxy::peers' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-bar_peers_block').with(
-        'order'   => '30-peers-00-bar',
-        'target'  => '/tmp/haproxy.cfg',
+        'order' => '30-peers-00-bar',
+        'target' => '/tmp/haproxy.cfg',
         'content' => "\npeers bar\n",
       )
     }

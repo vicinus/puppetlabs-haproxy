@@ -31,6 +31,7 @@ def retry_on_error_matching(max_retry_count = MAX_RETRY_COUNT, retry_wait_interv
     yield
   rescue StandardError => e
     raise unless try < max_retry_count && (error_matcher.nil? || e.message =~ error_matcher)
+
     sleep retry_wait_interval_secs
     retry
   end

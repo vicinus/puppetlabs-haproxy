@@ -62,12 +62,12 @@ describe 'haproxy::instance_service' do
       let(:pre_condition) do
         <<-PUPPETCODE
         service {'haproxy-#{title}': }
-      PUPPETCODE
+        PUPPETCODE
       end
       let(:params) do
         {
-          'haproxy_package'     => 'customhaproxy',
-          'bindir'              => '/weird/place',
+          'haproxy_package' => 'customhaproxy',
+          'bindir' => '/weird/place',
           'haproxy_init_source' => '/foo/bar',
         }
       end
@@ -108,7 +108,7 @@ describe 'haproxy::instance_service' do
       let(:pre_condition) do
         <<-PUPPETCODE
         service {'haproxy-#{title}': }
-      PUPPETCODE
+        PUPPETCODE
       end
       let(:params) do
         {
@@ -152,8 +152,8 @@ describe 'haproxy::instance_service' do
     end
     let(:params) do
       {
-        'haproxy_package'     => 'customhaproxy',
-        'bindir'              => '/weird/place',
+        'haproxy_package' => 'customhaproxy',
+        'bindir' => '/weird/place',
         'haproxy_init_source' => '/init/source/haproxy',
       }
     end
