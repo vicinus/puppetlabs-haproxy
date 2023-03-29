@@ -7,8 +7,8 @@ describe 'haproxy::instance' do
     {
       concat_basedir: '/dne',
       networking: {
-        ip: '10.10.10.10',
-      },
+        ip: '10.10.10.10'
+      }
     }
   end
 
@@ -32,7 +32,7 @@ describe 'haproxy::instance' do
               'service_ensure' => 'running',
               'package_ensure' => 'present',
               'package_name' => 'haproxy',
-              'service_manage' => true,
+              'service_manage' => true
             }
           end
 
@@ -41,6 +41,7 @@ describe 'haproxy::instance' do
               'ensure' => 'present',
             )
           end
+
           it 'installs the haproxy service' do
             subject.should contain_service('haproxy').with(
               'ensure' => 'running', 'enable' => 'true',
@@ -48,6 +49,7 @@ describe 'haproxy::instance' do
             )
           end
         end
+
         context "on #{osfamily} family specifying a package version" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
@@ -57,7 +59,7 @@ describe 'haproxy::instance' do
               'service_ensure' => 'running',
               'package_ensure' => '1.7.9-1',
               'package_name' => 'haproxy',
-              'service_manage' => true,
+              'service_manage' => true
             }
           end
 
@@ -66,6 +68,7 @@ describe 'haproxy::instance' do
               'ensure' => '1.7.9-1',
             )
           end
+
           it 'installs the haproxy service' do
             subject.should contain_service('haproxy').with(
               'ensure' => 'running', 'enable' => 'true',
@@ -73,6 +76,7 @@ describe 'haproxy::instance' do
             )
           end
         end
+
         # C9938
         context "on #{osfamily} when specifying custom content" do
           let(:facts) do
@@ -105,6 +109,7 @@ describe 'haproxy::instance' do
               'mode' => '0640',
             )
           end
+
           it 'manages the chroot directory' do
             subject.should contain_file('/var/lib/haproxy').with(
               'ensure' => 'directory',
@@ -112,6 +117,7 @@ describe 'haproxy::instance' do
               'group' => 'haproxy',
             )
           end
+
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-00-header').with(
               'target' => '/etc/haproxy/haproxy.cfg',
@@ -119,12 +125,14 @@ describe 'haproxy::instance' do
               'content' => "# This file is managed by Puppet\n",
             )
           end
+
           it 'contains a haproxy-haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-haproxy-base').with(
               'target' => '/etc/haproxy/haproxy.cfg',
               'order' => '10',
             )
           end
+
           describe 'Base concat fragment contents' do
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -133,25 +141,31 @@ describe 'haproxy::instance' do
               contents.should include('global')
               contents.should include('defaults')
             end
+
             it 'logs to an ip address for local0' do
               contents.should be_any do |match|
                 match =~ %r{  log  \d+(\.\d+){3} local0}
               end
             end
+
             it 'specifies the default chroot' do
               contents.should include('  chroot  /var/lib/haproxy')
             end
+
             it 'specifies the correct user' do
               contents.should include('  user  haproxy')
             end
+
             it 'specifies the correct group' do
               contents.should include('  group  haproxy')
             end
+
             it 'specifies the correct pidfile' do
               contents.should include('  pidfile  /var/run/haproxy.pid')
             end
           end
         end
+
         context "when on #{osfamily} family operatingsystems without managing the service" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
@@ -161,7 +175,7 @@ describe 'haproxy::instance' do
               'service_ensure' => true,
               'package_ensure' => 'present',
               'package_name' => 'haproxy',
-              'service_manage' => false,
+              'service_manage' => false
             }
           end
 
@@ -170,9 +184,11 @@ describe 'haproxy::instance' do
               'ensure' => 'present',
             )
           end
+
           it 'does not manage the haproxy service' do
             subject.should_not contain_service('haproxy')
           end
+
           it 'sets up /etc/haproxy/haproxy.cfg as a concat resource' do
             subject.should contain_concat('/etc/haproxy/haproxy.cfg').with(
               'owner' => '0',
@@ -180,11 +196,13 @@ describe 'haproxy::instance' do
               'mode' => '0640',
             )
           end
+
           it 'manages the chroot directory' do
             subject.should contain_file('/var/lib/haproxy').with(
               'ensure' => 'directory',
             )
           end
+
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-00-header').with(
               'target' => '/etc/haproxy/haproxy.cfg',
@@ -192,12 +210,14 @@ describe 'haproxy::instance' do
               'content' => "# This file is managed by Puppet\n",
             )
           end
+
           it 'contains a haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-haproxy-base').with(
               'target' => '/etc/haproxy/haproxy.cfg',
               'order' => '10',
             )
           end
+
           describe 'Base concat fragment contents' do
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -205,32 +225,38 @@ describe 'haproxy::instance' do
               contents.should include('global')
               contents.should include('defaults')
             end
+
             it 'logs to an ip address for local0' do
               contents.should be_any do |match|
                 match =~ %r{  log  \d+(\.\d+){3} local0}
               end
             end
+
             it 'specifies the default chroot' do
               contents.should include('  chroot  /var/lib/haproxy')
             end
+
             it 'specifies the correct user' do
               contents.should include('  user  haproxy')
             end
+
             it 'specifies the correct group' do
               contents.should include('  group  haproxy')
             end
+
             it 'specifies the correct pidfile' do
               contents.should include('  pidfile  /var/run/haproxy.pid')
             end
           end
         end
+
         context "when on #{osfamily} family operatingsystems without managing the chroot directory" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
           end
           let(:params) do
             {
-              'chroot_dir_manage' => false,
+              'chroot_dir_manage' => false
             }
           end
 
@@ -238,6 +264,7 @@ describe 'haproxy::instance' do
             subject.should_not contain_file('/var/lib/haproxy')
           end
         end
+
         context "on #{osfamily} when specifying a restart_command" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
@@ -245,7 +272,7 @@ describe 'haproxy::instance' do
           let(:params) do
             {
               'restart_command' => '/etc/init.d/haproxy reload',
-              'service_manage' => true,
+              'service_manage' => true
             }
           end
 
@@ -275,7 +302,7 @@ describe 'haproxy::instance' do
               'service_ensure' => 'running',
               'package_ensure' => 'present',
               'package_name' => 'customhaproxy',
-              'service_manage' => true,
+              'service_manage' => true
             }
           end
 
@@ -284,21 +311,25 @@ describe 'haproxy::instance' do
               'ensure' => 'present',
             )
           end
+
           it 'installs the customhaproxy service' do
             subject.should contain_service('haproxy-group1').with(
               'ensure' => 'running', 'enable' => 'true',
               'hasrestart' => 'true', 'hasstatus' => 'true'
             )
           end
+
           it 'does not install the haproxy package' do
             subject.should_not contain_package('haproxy').with(
               'title' => 'haproxy',
             )
           end
+
           it 'does not install the haproxy service' do
             subject.should_not contain_service('haproxy')
           end
         end
+
         # C9938
         context "on #{osfamily} when specifying custom content" do
           let(:facts) do
@@ -331,6 +362,7 @@ describe 'haproxy::instance' do
               'mode' => '0640',
             )
           end
+
           it 'manages the chroot directory' do
             subject.should contain_file('/var/lib/haproxy').with(
               'ensure' => 'directory',
@@ -338,6 +370,7 @@ describe 'haproxy::instance' do
               'group' => 'haproxy',
             )
           end
+
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-00-header').with(
               'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
@@ -345,12 +378,14 @@ describe 'haproxy::instance' do
               'content' => "# This file is managed by Puppet\n",
             )
           end
+
           it 'contains a haproxy-group1-haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-haproxy-base').with(
               'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
               'order' => '10',
             )
           end
+
           describe 'Base concat fragment contents' do
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-group1-haproxy-base', 'content').split("\n") }
 
@@ -359,25 +394,31 @@ describe 'haproxy::instance' do
               contents.should include('global')
               contents.should include('defaults')
             end
+
             it 'logs to an ip address for local0' do
               contents.should be_any do |match|
                 match =~ %r{  log  \d+(\.\d+){3} local0}
               end
             end
+
             it 'specifies the default chroot' do
               contents.should include('  chroot  /var/lib/haproxy')
             end
+
             it 'specifies the correct user' do
               contents.should include('  user  haproxy')
             end
+
             it 'specifies the correct group' do
               contents.should include('  group  haproxy')
             end
+
             it 'specifies the correct pidfile' do
               contents.should include('  pidfile  /var/run/haproxy.pid')
             end
           end
         end
+
         context "on #{osfamily} family operatingsystems without managing the service" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
@@ -387,7 +428,7 @@ describe 'haproxy::instance' do
               'service_ensure' => true,
               'package_ensure' => 'present',
               'package_name' => 'customhaproxy',
-              'service_manage' => false,
+              'service_manage' => false
             }
           end
 
@@ -396,9 +437,11 @@ describe 'haproxy::instance' do
               'ensure' => 'present',
             )
           end
+
           it 'does not manage the customhaproxy service' do
             subject.should_not contain_service('haproxy-group1')
           end
+
           it 'sets up /etc/haproxy-group1/haproxy-group1.cfg as a concat resource' do
             subject.should contain_concat('/etc/haproxy-group1/haproxy-group1.cfg').with(
               'owner' => '0',
@@ -406,11 +449,13 @@ describe 'haproxy::instance' do
               'mode' => '0640',
             )
           end
+
           it 'manages the chroot directory' do
             subject.should contain_file('/var/lib/haproxy').with(
               'ensure' => 'directory',
             )
           end
+
           it 'contains a header concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-00-header').with(
               'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
@@ -418,12 +463,14 @@ describe 'haproxy::instance' do
               'content' => "# This file is managed by Puppet\n",
             )
           end
+
           it 'contains a haproxy-group1-haproxy-base concat fragment' do
             subject.should contain_concat__fragment('haproxy-group1-haproxy-base').with(
               'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
               'order' => '10',
             )
           end
+
           describe 'Base concat fragment contents' do
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-group1-haproxy-base', 'content').split("\n") }
 
@@ -431,25 +478,31 @@ describe 'haproxy::instance' do
               contents.should include('global')
               contents.should include('defaults')
             end
+
             it 'logs to an ip address for local0' do
               contents.should be_any do |match|
                 match =~ %r{  log  \d+(\.\d+){3} local0}
               end
             end
+
             it 'specifies the default chroot' do
               contents.should include('  chroot  /var/lib/haproxy')
             end
+
             it 'specifies the correct user' do
               contents.should include('  user  haproxy')
             end
+
             it 'specifies the correct group' do
               contents.should include('  group  haproxy')
             end
+
             it 'specifies the correct pidfile' do
               contents.should include('  pidfile  /var/run/haproxy.pid')
             end
           end
         end
+
         context "on #{osfamily} when specifying a restart_command" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
@@ -457,7 +510,7 @@ describe 'haproxy::instance' do
           let(:params) do
             {
               'restart_command' => '/etc/init.d/haproxy-group1 reload',
-              'service_manage' => true,
+              'service_manage' => true
             }
           end
 
@@ -487,11 +540,13 @@ describe 'haproxy::instance' do
             'mode' => '0640',
           )
         end
+
         it 'manages the chroot directory' do
           subject.should contain_file('/usr/local/haproxy').with(
             'ensure' => 'directory',
           )
         end
+
         it 'contains a header concat fragment' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
             'target' => '/usr/local/etc/haproxy.conf',
@@ -499,12 +554,14 @@ describe 'haproxy::instance' do
             'content' => "# This file is managed by Puppet\n",
           )
         end
+
         it 'contains a haproxy-base concat fragment' do
           subject.should contain_concat__fragment('haproxy-haproxy-base').with(
             'target' => '/usr/local/etc/haproxy.conf',
             'order' => '10',
           )
         end
+
         describe 'Base concat fragment contents' do
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -513,19 +570,23 @@ describe 'haproxy::instance' do
             contents.should include('global')
             contents.should include('defaults')
           end
+
           it 'logs to an ip address for local0' do
             contents.should be_any do |match|
               match =~ %r{  log  \d+(\.\d+){3} local0}
             end
           end
+
           it 'specifies the default chroot' do
             contents.should include('  chroot  /usr/local/haproxy')
           end
+
           it 'specifies the correct pidfile' do
             contents.should include('  pidfile  /var/run/haproxy.pid')
           end
         end
       end
+
       context 'when on freebsd family operatingsystems without managing the service' do
         let(:facts) do
           { os: { family: 'FreeBSD' } }.merge default_facts
@@ -535,7 +596,7 @@ describe 'haproxy::instance' do
             'service_ensure' => true,
             'package_ensure' => 'present',
             'package_name' => 'haproxy',
-            'service_manage' => false,
+            'service_manage' => false
           }
         end
 
@@ -544,9 +605,11 @@ describe 'haproxy::instance' do
             'ensure' => 'present',
           )
         end
+
         it 'does not manage the haproxy service' do
           subject.should_not contain_service('haproxy')
         end
+
         it 'sets up /usr/local/etc/haproxy.conf as a concat resource' do
           subject.should contain_concat('/usr/local/etc/haproxy.conf').with(
             'owner' => '0',
@@ -554,11 +617,13 @@ describe 'haproxy::instance' do
             'mode' => '0640',
           )
         end
+
         it 'manages the chroot directory' do
           subject.should contain_file('/usr/local/haproxy').with(
             'ensure' => 'directory',
           )
         end
+
         it 'contains a header concat fragment' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
             'target' => '/usr/local/etc/haproxy.conf',
@@ -566,12 +631,14 @@ describe 'haproxy::instance' do
             'content' => "# This file is managed by Puppet\n",
           )
         end
+
         it 'contains a haproxy-base concat fragment' do
           subject.should contain_concat__fragment('haproxy-haproxy-base').with(
             'target' => '/usr/local/etc/haproxy.conf',
             'order' => '10',
           )
         end
+
         describe 'Base concat fragment contents' do
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -579,19 +646,23 @@ describe 'haproxy::instance' do
             contents.should include('global')
             contents.should include('defaults')
           end
+
           it 'logs to an ip address for local0' do
             contents.should be_any do |match|
               match =~ %r{  log  \d+(\.\d+){3} local0}
             end
           end
+
           it 'specifies the default chroot' do
             contents.should include('  chroot  /usr/local/haproxy')
           end
+
           it 'specifies the correct pidfile' do
             contents.should include('  pidfile  /var/run/haproxy.pid')
           end
         end
       end
+
       context 'when on freebsd when specifying a restart_command' do
         let(:facts) do
           { os: { family: 'FreeBSD' } }.merge default_facts
@@ -599,7 +670,7 @@ describe 'haproxy::instance' do
         let(:params) do
           {
             'restart_command' => '/usr/local/etc/rc.d/haproxy reload',
-            'service_manage' => true,
+            'service_manage' => true
           }
         end
 
@@ -624,13 +695,14 @@ describe 'haproxy::instance' do
           verify_contents(catalogue, '/etc/default/haproxy-group1', ['ENABLED=1'])
         end
       end
+
       context 'when only on Debian family operatingsystems with custom /etc/default' do
         let(:facts) do
           { os: { family: 'Debian' } }.merge default_facts
         end
         let(:params) do
           {
-            'service_options' => 'stuff',
+            'service_options' => 'stuff'
           }
         end
 
@@ -639,6 +711,7 @@ describe 'haproxy::instance' do
           verify_contents(catalogue, '/etc/default/haproxy-group1', ['stuff'])
         end
       end
+
       context 'when only on RedHat family operatingsystems' do
         let(:facts) do
           { os: { family: 'RedHat' } }.merge default_facts

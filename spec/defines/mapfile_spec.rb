@@ -8,12 +8,12 @@ describe 'haproxy::mapfile' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1',
+        ip: '1.1.1.1'
       },
       os: {
-        family: 'Redhat',
+        family: 'Redhat'
       },
-      concat_basedir: '/dne',
+      concat_basedir: '/dne'
     }
   end
 
@@ -29,18 +29,20 @@ describe 'haproxy::mapfile' do
           'app05.example.com bk_app05',
           'app06.example.com bk_app06',
         ],
-        instances: ['haproxy'],
+        instances: ['haproxy']
       }
     end
 
     it { is_expected.to compile.with_all_deps }
     it { is_expected.to contain_concat('haproxy_mapfile_domains-to-backends').that_notifies('Haproxy::Service[haproxy]') }
+
     it {
       is_expected.to contain_concat('haproxy_mapfile_domains-to-backends').with(
         'path' => '/etc/haproxy/domains-to-backends.map',
         'ensure' => 'present',
       )
     }
+
     it {
       is_expected.to contain_concat__fragment('haproxy_mapfile_domains-to-backends-top').with(
         'order' => '00',
@@ -54,11 +56,12 @@ describe 'haproxy::mapfile' do
     let(:params) do
       {
         ensure: 'present',
-        instances: ['haproxy'],
+        instances: ['haproxy']
       }
     end
 
     it { is_expected.to compile.with_all_deps }
+
     it {
       is_expected.to contain_concat__fragment('haproxy_mapfile_domains-to-backends-top').with(
         'order' => '00',

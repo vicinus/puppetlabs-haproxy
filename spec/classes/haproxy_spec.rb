@@ -7,8 +7,8 @@ describe 'haproxy', type: :class do
     {
       concat_basedir: '/dne',
       networking: {
-        ip: '10.10.10.10',
-      },
+        ip: '10.10.10.10'
+      }
     }
   end
 
@@ -22,7 +22,7 @@ describe 'haproxy', type: :class do
           {
             'service_ensure' => 'running',
             'package_ensure' => 'present',
-            'service_manage' => true,
+            'service_manage' => true
           }
         end
 
@@ -31,6 +31,7 @@ describe 'haproxy', type: :class do
             'ensure' => 'present',
           )
         end
+
         it 'installs the haproxy service' do
           subject.should contain_service('haproxy').with(
             'ensure' => 'running', 'enable' => 'true',
@@ -38,6 +39,7 @@ describe 'haproxy', type: :class do
           )
         end
       end
+
       context "on #{osfamily} specifying a package version" do
         let(:facts) do
           { os: { family: osfamily } }.merge default_facts
@@ -46,7 +48,7 @@ describe 'haproxy', type: :class do
           {
             'service_ensure' => 'running',
             'package_ensure' => '1.7.9-1',
-            'service_manage' => true,
+            'service_manage' => true
           }
         end
 
@@ -55,6 +57,7 @@ describe 'haproxy', type: :class do
             'ensure' => '1.7.9-1',
           )
         end
+
         it 'installs the haproxy service' do
           subject.should contain_service('haproxy').with(
             'ensure' => 'running', 'enable' => 'true',
@@ -62,6 +65,7 @@ describe 'haproxy', type: :class do
           )
         end
       end
+
       # C9938
       context "on #{osfamily} when specifying custom content" do
         let(:facts) do
@@ -94,6 +98,7 @@ describe 'haproxy', type: :class do
             'mode' => '0640',
           )
         end
+
         it 'manages the chroot directory' do
           subject.should contain_file('/var/lib/haproxy').with(
             'ensure' => 'directory',
@@ -101,6 +106,7 @@ describe 'haproxy', type: :class do
             'group' => 'haproxy',
           )
         end
+
         it 'contains a header concat fragment' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
             'target' => '/etc/haproxy/haproxy.cfg',
@@ -108,12 +114,14 @@ describe 'haproxy', type: :class do
             'content' => "# This file is managed by Puppet\n",
           )
         end
+
         it 'contains a haproxy-haproxy-base concat fragment' do
           subject.should contain_concat__fragment('haproxy-haproxy-base').with(
             'target' => '/etc/haproxy/haproxy.cfg',
             'order' => '10',
           )
         end
+
         describe 'Base concat fragment contents' do
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -122,32 +130,38 @@ describe 'haproxy', type: :class do
             contents.should include('global')
             contents.should include('defaults')
           end
+
           it 'logs to an ip address for local0' do
             contents.should be_any do |match|
               match =~ %r{  log  \d+(\.\d+){3} local0}
             end
           end
+
           it 'specifies the default chroot' do
             contents.should include('  chroot  /var/lib/haproxy')
           end
+
           it 'specifies the correct user' do
             contents.should include('  user  haproxy')
           end
+
           it 'specifies the correct group' do
             contents.should include('  group  haproxy')
           end
+
           it 'specifies the correct pidfile' do
             contents.should include('  pidfile  /var/run/haproxy.pid')
           end
         end
       end
+
       context "on #{osfamily} family operatingsystems with setting haproxy.cfg location" do
         let(:facts) do
           { os: { family: osfamily } }.merge default_facts
         end
         let(:params) do
           {
-            'config_file' => '/tmp/haproxy.cfg',
+            'config_file' => '/tmp/haproxy.cfg'
           }
         end
 
@@ -159,6 +173,7 @@ describe 'haproxy', type: :class do
           )
         end
       end
+
       context "on #{osfamily} family operatingsystems without managing the service" do
         let(:facts) do
           { os: { family: osfamily } }.merge default_facts
@@ -167,7 +182,7 @@ describe 'haproxy', type: :class do
           {
             'service_ensure' => true,
             'package_ensure' => 'present',
-            'service_manage' => false,
+            'service_manage' => false
           }
         end
 
@@ -176,9 +191,11 @@ describe 'haproxy', type: :class do
             'ensure' => 'present',
           )
         end
+
         it 'does not manage the haproxy service' do
           subject.should_not contain_service('haproxy')
         end
+
         it 'sets up /etc/haproxy/haproxy.cfg as a concat resource' do
           subject.should contain_concat('/etc/haproxy/haproxy.cfg').with(
             'owner' => '0',
@@ -186,11 +203,13 @@ describe 'haproxy', type: :class do
             'mode' => '0640',
           )
         end
+
         it 'manages the chroot directory' do
           subject.should contain_file('/var/lib/haproxy').with(
             'ensure' => 'directory',
           )
         end
+
         it 'contains a header concat fragment' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
             'target' => '/etc/haproxy/haproxy.cfg',
@@ -198,12 +217,14 @@ describe 'haproxy', type: :class do
             'content' => "# This file is managed by Puppet\n",
           )
         end
+
         it 'contains a haproxy-base concat fragment' do
           subject.should contain_concat__fragment('haproxy-haproxy-base').with(
             'target' => '/etc/haproxy/haproxy.cfg',
             'order' => '10',
           )
         end
+
         describe 'Base concat fragment contents' do
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -211,25 +232,31 @@ describe 'haproxy', type: :class do
             contents.should include('global')
             contents.should include('defaults')
           end
+
           it 'logs to an ip address for local0' do
             contents.should be_any do |match|
               match =~ %r{  log  \d+(\.\d+){3} local0}
             end
           end
+
           it 'specifies the default chroot' do
             contents.should include('  chroot  /var/lib/haproxy')
           end
+
           it 'specifies the correct user' do
             contents.should include('  user  haproxy')
           end
+
           it 'specifies the correct group' do
             contents.should include('  group  haproxy')
           end
+
           it 'specifies the correct pidfile' do
             contents.should include('  pidfile  /var/run/haproxy.pid')
           end
         end
       end
+
       context "on #{osfamily} when specifying a restart_command" do
         let(:facts) do
           { os: { family: osfamily } }.merge default_facts
@@ -237,7 +264,7 @@ describe 'haproxy', type: :class do
         let(:params) do
           {
             'restart_command' => '/etc/init.d/haproxy reload',
-            'service_manage' => true,
+            'service_manage' => true
           }
         end
 
@@ -263,11 +290,13 @@ describe 'haproxy', type: :class do
           'mode' => '0640',
         )
       end
+
       it 'manages the chroot directory' do
         subject.should contain_file('/usr/local/haproxy').with(
           'ensure' => 'directory',
         )
       end
+
       it 'contains a header concat fragment' do
         subject.should contain_concat__fragment('haproxy-00-header').with(
           'target' => '/usr/local/etc/haproxy.conf',
@@ -275,12 +304,14 @@ describe 'haproxy', type: :class do
           'content' => "# This file is managed by Puppet\n",
         )
       end
+
       it 'contains a haproxy-base concat fragment' do
         subject.should contain_concat__fragment('haproxy-haproxy-base').with(
           'target' => '/usr/local/etc/haproxy.conf',
           'order' => '10',
         )
       end
+
       describe 'Base concat fragment contents' do
         let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -289,19 +320,23 @@ describe 'haproxy', type: :class do
           contents.should include('global')
           contents.should include('defaults')
         end
+
         it 'logs to an ip address for local0' do
           contents.should be_any do |match|
             match =~ %r{  log  \d+(\.\d+){3} local0}
           end
         end
+
         it 'specifies the default chroot' do
           contents.should include('  chroot  /usr/local/haproxy')
         end
+
         it 'specifies the correct pidfile' do
           contents.should include('  pidfile  /var/run/haproxy.pid')
         end
       end
     end
+
     context 'when on freebsd family operatingsystems without managing the service' do
       let(:facts) do
         { os: { family: 'FreeBSD' } }.merge default_facts
@@ -310,7 +345,7 @@ describe 'haproxy', type: :class do
         {
           'service_ensure' => true,
           'package_ensure' => 'present',
-          'service_manage' => false,
+          'service_manage' => false
         }
       end
 
@@ -319,9 +354,11 @@ describe 'haproxy', type: :class do
           'ensure' => 'present',
         )
       end
+
       it 'does not manage the haproxy service' do
         subject.should_not contain_service('haproxy')
       end
+
       it 'sets up /usr/local/etc/haproxy.conf as a concat resource' do
         subject.should contain_concat('/usr/local/etc/haproxy.conf').with(
           'owner' => '0',
@@ -329,11 +366,13 @@ describe 'haproxy', type: :class do
           'mode' => '0640',
         )
       end
+
       it 'manages the chroot directory' do
         subject.should contain_file('/usr/local/haproxy').with(
           'ensure' => 'directory',
         )
       end
+
       it 'contains a header concat fragment' do
         subject.should contain_concat__fragment('haproxy-00-header').with(
           'target' => '/usr/local/etc/haproxy.conf',
@@ -341,12 +380,14 @@ describe 'haproxy', type: :class do
           'content' => "# This file is managed by Puppet\n",
         )
       end
+
       it 'contains a haproxy-base concat fragment' do
         subject.should contain_concat__fragment('haproxy-haproxy-base').with(
           'target' => '/usr/local/etc/haproxy.conf',
           'order' => '10',
         )
       end
+
       describe 'Base concat fragment contents' do
         let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
@@ -354,19 +395,23 @@ describe 'haproxy', type: :class do
           contents.should include('global')
           contents.should include('defaults')
         end
+
         it 'logs to an ip address for local0' do
           contents.should be_any do |match|
             match =~ %r{  log  \d+(\.\d+){3} local0}
           end
         end
+
         it 'specifies the default chroot' do
           contents.should include('  chroot  /usr/local/haproxy')
         end
+
         it 'specifies the correct pidfile' do
           contents.should include('  pidfile  /var/run/haproxy.pid')
         end
       end
     end
+
     context 'when on freebsd when specifying a restart_command' do
       let(:facts) do
         { os: { family: 'FreeBSD' } }.merge default_facts
@@ -374,7 +419,7 @@ describe 'haproxy', type: :class do
       let(:params) do
         {
           'restart_command' => '/usr/local/etc/rc.d/haproxy reload',
-          'service_manage' => true,
+          'service_manage' => true
         }
       end
 
@@ -431,7 +476,7 @@ describe 'haproxy', type: :class do
               'stats' => [
                 'socket /var/lib/haproxy/admin.sock mode 660 level admin',
                 'timeout 30s',
-              ],
+              ]
             },
             'defaults_options' => {
               'mode' => 'http',
@@ -448,8 +493,8 @@ describe 'haproxy', type: :class do
                 'client 1m',
                 'server 1m',
                 'check 7s',
-              ],
-            },
+              ]
+            }
           }
         end
 
@@ -460,37 +505,47 @@ describe 'haproxy', type: :class do
             'group' => 'haproxy',
           )
         end
+
         it 'contains global and defaults sections' do
           contents.should include('global')
           contents.should include('defaults')
         end
+
         it 'sends hostname with log in global options' do
           contents.should include('  log-send-hostname  ')
         end
+
         it 'enables admin stats and stats timeout in global options' do
           contents.should include('  stats  socket /var/lib/haproxy/admin.sock mode 660 level admin')
           contents.should include('  stats  timeout 30s')
         end
+
         it 'logs to an ip address for local0' do
           contents.should be_any do |match|
             match =~ %r{  log  \d+(\.\d+){3} local0}
           end
         end
+
         it 'specifies the correct user' do
           contents.should include('  user  haproxy')
         end
+
         it 'specifies the correct group' do
           contents.should include('  group  haproxy')
         end
+
         it 'specifies the correct pidfile' do
           contents.should include('  pidfile  /var/run/haproxy.pid')
         end
+
         it 'sets mode http in default options' do
           contents.should include('  mode  http')
         end
+
         it 'does not set the global parameter "maxconn"' do
           contents.should_not include('  maxconn  4000')
         end
+
         expected_array_one = ['  option  abortonclose', '  option  logasap', '  option  dontlognull',
                               '  option  httplog', '  option  http-server-close', '  option  forwardfor except 127.0.0.1']
         it 'sets various options in defaults, removing the "redispatch" option' do
@@ -499,6 +554,7 @@ describe 'haproxy', type: :class do
             contents.should include(expected)
           end
         end
+
         expected_array_two = ['  timeout  connect 5s', '  timeout  check 7s', '  timeout  client 1m', '  timeout  server 1m']
         it 'sets timeouts in defaults, removing the "http-request 10s" and "queue 1m" timeout' do
           contents.should_not include('  timeout  http-request 10s')
@@ -530,7 +586,7 @@ describe 'haproxy', type: :class do
               'stats' => [
                 'socket /var/lib/haproxy/admin.sock mode 660 level admin',
                 'timeout 30s',
-              ],
+              ]
             },
             'defaults_options' => {
               'mode' => 'http',
@@ -547,8 +603,8 @@ describe 'haproxy', type: :class do
                 'client 1m',
                 'server 1m',
                 'check 7s',
-              ],
-            },
+              ]
+            }
           }
         end
 
@@ -557,23 +613,29 @@ describe 'haproxy', type: :class do
             'ensure' => 'directory',
           )
         end
+
         it 'contains global and defaults sections' do
           contents.should include('global')
           contents.should include('defaults')
         end
+
         it 'sends hostname with log in global options' do
           contents.should include('  log-send-hostname  ')
         end
+
         it 'enables admin stats and stats timeout in global options' do
           contents.should include('  stats  socket /var/lib/haproxy/admin.sock mode 660 level admin')
           contents.should include('  stats  timeout 30s')
         end
+
         it 'sets mode http in default options' do
           contents.should include('  mode  http')
         end
+
         it 'does not set the global parameter "maxconn"' do
           contents.should_not include('  maxconn  4000')
         end
+
         expected_array_one = ['  option  abortonclose', '  option  logasap', '  option  dontlognull', '  option  httplog',
                               '  option  http-server-close', '  option  forwardfor except 127.0.0.1']
         it 'sets various options in defaults, removing the "redispatch" option' do
@@ -582,6 +644,7 @@ describe 'haproxy', type: :class do
             contents.should include(expected)
           end
         end
+
         expected_array_two = ['  timeout  connect 5s', '  timeout  check 7s', '  timeout  client 1m', '  timeout  server 1m']
         it 'sets timeouts in defaults, removing the "http-request 10s" and "queue 1m" timeout' do
           contents.should_not include('  timeout  http-request 10s')

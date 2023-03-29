@@ -9,12 +9,12 @@ describe 'haproxy::balancermember' do
     {
       networking: {
         ip: '1.1.1.1',
-        hostname: 'dero',
+        hostname: 'dero'
       },
       os: {
-        family: 'Redhat',
+        family: 'Redhat'
       },
-      concat_basedir: '/dne',
+      concat_basedir: '/dne'
     }
   end
 
@@ -24,7 +24,7 @@ describe 'haproxy::balancermember' do
         name: 'tyler',
         listening_service: 'croy',
         ports: '18140',
-        options: 'check',
+        options: 'check'
       }
     end
 
@@ -43,7 +43,7 @@ describe 'haproxy::balancermember' do
         name: 'tyler',
         listening_service: 'croy',
         ports: '18140',
-        options: ['check', 'close'],
+        options: ['check', 'close']
       }
     end
 
@@ -63,7 +63,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         ports: '18140',
         options: ['check', 'close'],
-        define_cookies: true,
+        define_cookies: true
       }
     end
 
@@ -83,7 +83,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         ports: '18140',
         options: ['check', 'close'],
-        verifyhost: true,
+        verifyhost: true
       }
     end
 
@@ -95,6 +95,7 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
   context 'with multiple servers' do
     let(:params) do
       {
@@ -103,7 +104,7 @@ describe 'haproxy::balancermember' do
         ports: '18140',
         server_names: ['server01', 'server02'],
         ipaddresses: ['192.168.56.200', '192.168.56.201'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
@@ -115,6 +116,7 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
   context 'with multiple servers and multiple ports' do
     let(:params) do
       {
@@ -123,7 +125,7 @@ describe 'haproxy::balancermember' do
         ports: ['18140', '18150'],
         server_names: ['server01', 'server02'],
         ipaddresses: ['192.168.56.200', '192.168.56.201'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
@@ -135,6 +137,7 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
   context 'with multiple servers and no port' do
     let(:params) do
       {
@@ -142,7 +145,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         server_names: ['server01', 'server02'],
         ipaddresses: ['192.168.56.200', '192.168.56.201'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
@@ -154,6 +157,7 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
   context 'when a non-default config file is used' do
     let(:pre_condition) { 'class { "haproxy": config_file => "/etc/non-default.cfg" }' }
     let(:params) do
@@ -162,7 +166,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'baz',
         server_names: ['server01', 'server02'],
         ipaddresses: ['10.0.0.1', '10.0.0.2'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
@@ -174,6 +178,7 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
   context 'with weight' do
     let(:params) do
       {
@@ -181,7 +186,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         ports: '18140',
         options: 'check',
-        weight: '100',
+        weight: '100'
       }
     end
 
@@ -200,7 +205,7 @@ describe 'haproxy::balancermember' do
         name: 'tyler',
         type: 'server-template',
         listening_service: 'croy',
-        fqdn: 'myserver.example.local',
+        fqdn: 'myserver.example.local'
       }
     end
 
@@ -220,7 +225,7 @@ describe 'haproxy::balancermember' do
         type: 'server-template',
         listening_service: 'croy',
         fqdn: 'myserver.example.local',
-        port: '8080',
+        port: '8080'
       }
     end
 
@@ -241,7 +246,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         fqdn: 'myserver.example.local',
         port: '8080',
-        amount: '5',
+        amount: '5'
       }
     end
 
@@ -262,7 +267,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         fqdn: 'myserver.example.local',
         port: '8080',
-        amount: '1-10',
+        amount: '1-10'
       }
     end
 
@@ -284,7 +289,7 @@ describe 'haproxy::balancermember' do
         fqdn: 'myserver.example.local',
         port: '8080',
         amount: '1-10',
-        prefix: 'srv',
+        prefix: 'srv'
       }
     end
 
@@ -307,7 +312,7 @@ describe 'haproxy::balancermember' do
         port: '8080',
         amount: '1-10',
         prefix: 'srv',
-        options: 'check',
+        options: 'check'
       }
     end
 
@@ -330,7 +335,7 @@ describe 'haproxy::balancermember' do
         port: '8080',
         amount: '1-10',
         prefix: 'srv',
-        options: ['check', 'close'],
+        options: ['check', 'close']
       }
     end
 
@@ -354,7 +359,7 @@ describe 'haproxy::balancermember' do
         amount: '1-10',
         prefix: 'srv',
         options: 'check',
-        weight: 100,
+        weight: 100
       }
     end
 
@@ -379,7 +384,7 @@ describe 'haproxy::balancermember' do
         prefix: 'srv',
         options: 'check',
         weight: 100,
-        define_cookies: true,
+        define_cookies: true
       }
     end
 
@@ -405,7 +410,7 @@ describe 'haproxy::balancermember' do
         options: 'check',
         weight: 100,
         define_cookies: true,
-        verifyhost: true,
+        verifyhost: true
       }
     end
 

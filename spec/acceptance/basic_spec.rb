@@ -32,6 +32,7 @@ describe 'configuring haproxy' do
     describe port('9090') do
       it { is_expected.not_to be_listening }
     end
+
     describe port('9091') do
       it { is_expected.not_to be_listening }
     end
@@ -124,6 +125,7 @@ describe 'configuring haproxy' do
             expect(r.stderr).to contain %r{Overriding\sthe\svalue\sof\s\$sort_options_alphabetic\sto\s"false"\sdue\sto\s"httpchk"\soption\sdefined}
           end
         end
+
         describe file('/etc/haproxy/haproxy.cfg') do
           its(:content) do
             is_expected.to match %r{backend\sservers\n\s+mode\shttp\n\s+option\shttpchk\n\s+http-check\s+disable-on-404}
@@ -146,6 +148,7 @@ describe 'configuring haproxy' do
         apply_manifest(pp_four, catch_failures: true)
       end
     end
+
     describe package('haproxy') do
       it { is_expected.not_to be_installed }
     end
@@ -167,6 +170,7 @@ describe 'configuring haproxy' do
         apply_manifest(pp_five, catch_failures: true)
       end
     end
+
     describe service('haproxy') do
       it { is_expected.not_to be_running }
       it { is_expected.not_to be_enabled }

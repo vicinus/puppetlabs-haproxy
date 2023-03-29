@@ -8,12 +8,12 @@ describe 'haproxy::listen' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1',
+        ip: '1.1.1.1'
       },
       os: {
-        family: 'RedHat',
+        family: 'RedHat'
       },
-      concat_basedir: '/dne',
+      concat_basedir: '/dne'
     }
   end
 
@@ -22,7 +22,7 @@ describe 'haproxy::listen' do
       {
         name: 'croy',
         ipaddress: '1.1.1.1',
-        ports: '18140',
+        ports: '18140'
       }
     end
 
@@ -34,13 +34,14 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   # C9940
   context 'when an array of ports is provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: ['80', '443'],
+        ports: ['80', '443']
       }
     end
 
@@ -52,13 +53,14 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   # C9940
   context 'when a comma-separated list of ports is provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: '80,443',
+        ports: '80,443'
       }
     end
 
@@ -70,13 +72,14 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   # C9962
   context 'when empty list of ports is provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: [],
+        ports: []
       }
     end
 
@@ -88,13 +91,14 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   # C9963
   context 'when a port is provided greater than 65535' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: '80443',
+        ports: '80443'
       }
     end
 
@@ -102,13 +106,14 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{outside of range}
     end
   end
+
   # C9974
   context 'when an invalid ipv4 address is passed' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '2323.23.23',
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -116,13 +121,14 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{Invalid IP address}
     end
   end
+
   # C9977
   context 'when a valid hostname is passed' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: 'some-hostname',
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -134,12 +140,13 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   context 'when a * is passed for ip address' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '*',
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -151,11 +158,12 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   context 'when a bind parameter hash is passed' do
     let(:params) do
       {
         name: 'apache',
-        bind: { '10.0.0.1:333' => ['ssl', 'crt', 'public.puppetlabs.com'], '192.168.122.1:8082' => [] },
+        bind: { '10.0.0.1:333' => ['ssl', 'crt', 'public.puppetlabs.com'], '192.168.122.1:8082' => [] }
       }
     end
 
@@ -167,12 +175,13 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   context 'when a ports parameter and a bind parameter are passed' do
     let(:params) do
       {
         name: 'apache',
         bind: { '192.168.0.1:80' => ['ssl'] },
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -180,12 +189,13 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{mutually exclusive}
     end
   end
+
   context 'when an ipaddress parameter and a bind parameter are passed' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '1.1.1.1',
-        bind: { '192.168.0.1:80' => ['ssl'] },
+        bind: { '192.168.0.1:80' => ['ssl'] }
       }
     end
 
@@ -193,10 +203,11 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{mutually exclusive}
     end
   end
+
   context 'when no ipaddress or bind parameter are passed' do
     let(:params) do
       {
-        name: 'apache',
+        name: 'apache'
       }
     end
 
@@ -204,13 +215,14 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{is needed}
     end
   end
+
   # C9977
   context 'when an invalid hostname is passed' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '$some_hostname',
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -218,13 +230,14 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{Invalid IP address}
     end
   end
+
   # C9974
   context 'when an invalid ipv6 address is passed' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: ':::6',
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -232,13 +245,14 @@ describe 'haproxy::listen' do
       expect { catalogue }.to raise_error Puppet::Error, %r{Invalid IP address}
     end
   end
+
   context 'when bind options are provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '1.1.1.1',
         ports: '80',
-        bind_options: ['the options', 'go here'],
+        bind_options: ['the options', 'go here']
       }
     end
 
@@ -250,11 +264,12 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   context 'when bind parameter is used without ipaddress parameter' do
     let(:params) do
       {
         name: 'apache',
-        bind: { '1.1.1.1:80' => [] },
+        bind: { '1.1.1.1:80' => [] }
       }
     end
 
@@ -276,8 +291,8 @@ describe 'haproxy::listen' do
           ':443,:8443' => ['ssl', 'crt public.puppetlabs.com', 'no-sslv3'],
           '2.2.2.2:8000-8010' => ['ssl', 'crt public.puppetlabs.com'],
           'fd@${FD_APP1}' => [],
-          '/var/run/ssl-frontend.sock' => ['user root', 'mode 600', 'accept-proxy'],
-        },
+          '/var/run/ssl-frontend.sock' => ['user root', 'mode 600', 'accept-proxy']
+        }
       }
     end
 
@@ -289,6 +304,7 @@ describe 'haproxy::listen' do
       )
     }
   end
+
   context 'when bind parameter is used with ip addresses that sort wrong lexigraphically' do
     let(:params) do
       {
@@ -301,8 +317,8 @@ describe 'haproxy::listen' do
           '1.1.1.1:80' => [],
           ':443,:8443' => ['ssl', 'crt public.puppetlabs.com', 'no-sslv3'],
           '2.2.2.2:8000-8010' => ['ssl', 'crt public.puppetlabs.com'],
-          'fd@${FD_APP1}' => [],
-        },
+          'fd@${FD_APP1}' => []
+        }
       }
     end
 
@@ -320,7 +336,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         bind: {
-          '0.0.0.0:48001-48003' => [],
+          '0.0.0.0:48001-48003' => []
         },
         mode: 'http',
         options: [
@@ -332,7 +348,7 @@ describe 'haproxy::listen' do
           { 'option'                 => ['httplog', 'http-server-close', 'forwardfor except 127.0.0.1'] },
           { 'compression' => 'algo gzip',
             'bind-process' => 'all' },
-        ],
+        ]
       }
     end
 
@@ -350,7 +366,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         bind: {
-          '0.0.0.0:48001-48003' => [],
+          '0.0.0.0:48001-48003' => []
         },
         mode: 'http',
         options: {
@@ -362,8 +378,8 @@ describe 'haproxy::listen' do
           'use_backend' => ['dev01_webapp if dst_dev01', 'dev02_webapp if dst_dev02', 'dev03_webapp if dst_dev03'],
           'option' => ['httplog', 'http-server-close', 'forwardfor except 127.0.0.1'],
           'compression' => 'algo gzip',
-          'bind-process' => 'all',
-        },
+          'bind-process' => 'all'
+        }
       }
     end
 
@@ -381,7 +397,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         bind: {
-          '0.0.0.0:48001-48003' => [],
+          '0.0.0.0:48001-48003' => []
         },
         mode: 'http',
         sort_options_alphabetic: false,
@@ -395,8 +411,8 @@ describe 'haproxy::listen' do
           'option' => ['httpchk', 'httplog', 'http-server-close', 'forwardfor except 127.0.0.1'],
           'compression' => 'algo gzip',
           'bind-process' => 'all',
-          'http-check' => ['send hdr Host test.example.com meth GET uri /health', 'expect status 204'],
-        },
+          'http-check' => ['send hdr Host test.example.com meth GET uri /health', 'expect status 204']
+        }
       }
     end
 
@@ -415,14 +431,14 @@ describe 'haproxy::listen' do
       {
         name: 'bar',
         bind: {
-          '*:5000' => [],
+          '*:5000' => []
         },
         options: {
           'option' => [
             'tcplog',
           ],
-          'balance' => 'roundrobin',
-        },
+          'balance' => 'roundrobin'
+        }
       }
     end
 

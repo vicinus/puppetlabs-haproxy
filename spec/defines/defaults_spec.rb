@@ -13,19 +13,19 @@ describe 'haproxy::defaults' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1',
+        ip: '1.1.1.1'
       },
       os: {
-        family: 'RedHat',
+        family: 'RedHat'
       },
-      concat_basedir: '/dne',
+      concat_basedir: '/dne'
     }
   end
 
   context 'with a single option' do
     let(:params) do
       {
-        options: { 'balance' => 'roundrobin' },
+        options: { 'balance' => 'roundrobin' }
       }
     end
 
