@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.5.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.5.0) (2023-03-31)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.4.0...v6.5.0)
+
+### Added
+
+- \(CONT-353\) Syntax update [\#536](https://github.com/puppetlabs/puppetlabs-haproxy/pull/536) ([LukasAud](https://github.com/LukasAud))
+
+### Fixed
+
+- \(CONT-651\) Adjusting datatypes [\#540](https://github.com/puppetlabs/puppetlabs-haproxy/pull/540) ([LukasAud](https://github.com/LukasAud))
+- \(CONT-560\) Fix facter typos after syntax update [\#539](https://github.com/puppetlabs/puppetlabs-haproxy/pull/539) ([LukasAud](https://github.com/LukasAud))
+- \(CONT-173\) - Updating deprecated facter instances [\#534](https://github.com/puppetlabs/puppetlabs-haproxy/pull/534) ([jordanbreen28](https://github.com/jordanbreen28))
+- pdksync - \(CONT-189\) Remove support for RedHat6 / Scientific6 [\#533](https://github.com/puppetlabs/puppetlabs-haproxy/pull/533) ([david22swan](https://github.com/david22swan))
+- pdksync - \(CONT-130\) - Dropping Support for Debian 9 [\#530](https://github.com/puppetlabs/puppetlabs-haproxy/pull/530) ([jordanbreen28](https://github.com/jordanbreen28))
+- update resolver parameters [\#526](https://github.com/puppetlabs/puppetlabs-haproxy/pull/526) ([bugfood](https://github.com/bugfood))
+
 ## [v6.4.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.4.0) (2022-10-03)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.3.0...v6.4.0)
