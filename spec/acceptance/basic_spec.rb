@@ -55,8 +55,8 @@ describe 'configuring haproxy' do
         end
       end
 
-      it 'has stats listening on each port' do
-        ['9090', '9091'].each do |port|
+      ['9090', '9091'].each do |port|
+        it "port #{port} has stats listening on each port" do
           run_shell("/usr/bin/curl -u puppet:puppet localhost:#{port}") do |r|
             expect(r.stdout).to contain %r{HAProxy}
             expect(r.exit_code).to eq 0
@@ -85,8 +85,8 @@ describe 'configuring haproxy' do
         end
       end
 
-      it 'has stats listening on each port' do
-        ['9090', '9091'].each do |port|
+      ['9090', '9091'].each do |port|
+        it "port #{port} has stats listening on each port" do
           run_shell("/usr/bin/curl -u puppet:puppet localhost:#{port}") do |r|
             expect(r.stdout).to contain %r{HAProxy}
             expect(r.exit_code).to eq 0

@@ -6,25 +6,10 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 33
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/acceptance/listen_spec.rb'
-    - 'spec/classes/haproxy_spec.rb'
-    - 'spec/defines/balancermember_spec.rb'
-    - 'spec/defines/instance_spec.rb'
-
 # Offense count: 22
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:
   Enabled: false
-
-# Offense count: 3
-# Configuration parameters: CountAsOne.
-RSpec/ExampleLength:
-  Max: 7
 
 # Offense count: 66
 # This cop supports safe autocorrection (--autocorrect).
@@ -47,10 +32,6 @@ RSpec/ImplicitSubject:
     - 'spec/defines/peers_spec.rb'
     - 'spec/defines/resolver_spec.rb'
     - 'spec/defines/userlist_spec.rb'
-
-# Offense count: 15
-RSpec/MultipleExpectations:
-  Max: 3
 
 # Offense count: 3
 # Configuration parameters: AllowSubject.

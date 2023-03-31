@@ -3,7 +3,7 @@
 require 'spec_helper_acceptance'
 
 describe 'listen define' do
-  context 'pp_one' do
+  context 'with standard setup' do
     pp_one = <<-PUPPETCODE
         class { 'haproxy': }
         haproxy::listen { 'app00':
@@ -36,7 +36,7 @@ describe 'listen define' do
     end
   end
 
-  context 'pp_two' do
+  context 'with options' do
     # C9955
     pp_two = <<-PUPPETCODE
         class { 'haproxy': }
@@ -71,7 +71,7 @@ describe 'listen define' do
   end
   # C9942 C9944 WONTFIX
 
-  context 'pp_three' do
+  context 'with one node up' do
     # C9943
     pp_three = <<-PUPPETCODE
         class { 'haproxy': }
@@ -102,7 +102,7 @@ describe 'listen define' do
     end
   end
 
-  context 'pp_three' do
+  context 'with no addess' do
     pp_four = <<-PUPPETCODE
         class { 'haproxy': }
           haproxy::listen { 'app0':

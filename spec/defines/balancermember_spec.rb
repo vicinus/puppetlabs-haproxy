@@ -199,7 +199,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template' do
+  context 'with server-template' do
     let(:params) do
       {
         name: 'tyler',
@@ -218,7 +218,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port' do
+  context 'with server-template with port' do
     let(:params) do
       {
         name: 'tyler',
@@ -238,7 +238,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with num amount' do
+  context 'with server-template with port with num amount' do
     let(:params) do
       {
         name: 'tyler',
@@ -259,7 +259,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount' do
+  context 'with server-template with port with range amount' do
     let(:params) do
       {
         name: 'tyler',
@@ -280,7 +280,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount with server prefix' do
+  context 'with server-template with port with range amount with server prefix' do
     let(:params) do
       {
         name: 'tyler',
@@ -302,7 +302,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options' do
+  context 'with server-template with port with range amount with server prefix with options' do
     let(:params) do
       {
         name: 'tyler',
@@ -325,7 +325,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount with server prefix with multiple options' do
+  context 'with server-template with port with range amount with server prefix with multiple options' do
     let(:params) do
       {
         name: 'tyler',
@@ -348,7 +348,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options with weight' do
+  context 'with server-template with port with range amount with server prefix with options with weight' do
     let(:params) do
       {
         name: 'tyler',
@@ -372,7 +372,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options with weight with cookies' do
+  context 'with server-template with port with range amount with server prefix with options with weight with cookies' do
     let(:params) do
       {
         name: 'tyler',
@@ -397,7 +397,7 @@ describe 'haproxy::balancermember' do
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options with weight with cookies with verifyhost' do
+  context 'with server-template with port with range amount with server prefix with options with weight with cookies with verifyhost' do
     let(:params) do
       {
         name: 'tyler',
