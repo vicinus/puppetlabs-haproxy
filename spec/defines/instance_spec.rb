@@ -3,6 +3,7 @@
 require 'spec_helper'
 
 describe 'haproxy::instance' do
+  # rubocop:disable RSpec/NestedGroups
   let(:default_facts) do
     {
       concat_basedir: '/dne',
@@ -18,7 +19,7 @@ describe 'haproxy::instance' do
 
   # haproxy::instance with service name "haproxy".
 
-  context 'when on supported platforms' do
+  context 'with haproxy::instance with service name "haproxy' do
     let(:title) { 'haproxy' }
 
     describe 'for OS-agnostic configuration' do
@@ -218,7 +219,7 @@ describe 'haproxy::instance' do
             )
           end
 
-          describe 'Base concat fragment contents' do
+          describe 'Base concat fragment contents' do # rubocop:disable RSpec/MultipleMemoizedHelpers
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
             it 'contains global and defaults sections' do
@@ -288,7 +289,7 @@ describe 'haproxy::instance' do
 
   # haproxy::instance with 2nd instance and with non-standard service name.
 
-  context 'when on supported platforms' do
+  context 'with haproxy::instance with 2nd instance and with non-standard service name' do
     let(:title) { 'group1' }
 
     describe 'for OS-agnostic configuration' do
@@ -471,7 +472,7 @@ describe 'haproxy::instance' do
             )
           end
 
-          describe 'Base concat fragment contents' do
+          describe 'Base concat fragment contents' do # rubocop:disable RSpec/MultipleMemoizedHelpers
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-group1-haproxy-base', 'content').split("\n") }
 
             it 'contains global and defaults sections' do
@@ -639,7 +640,7 @@ describe 'haproxy::instance' do
           )
         end
 
-        describe 'Base concat fragment contents' do
+        describe 'Base concat fragment contents' do # rubocop:disable RSpec/MultipleMemoizedHelpers
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
           it 'contains global and defaults sections' do
@@ -739,4 +740,5 @@ describe 'haproxy::instance' do
       }.to raise_error(Puppet::Error, %r{operating system is not supported with the haproxy module})
     end
   end
+  # rubocop:enable RSpec/NestedGroups
 end

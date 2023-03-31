@@ -33,11 +33,6 @@ RSpec/ImplicitSubject:
     - 'spec/defines/resolver_spec.rb'
     - 'spec/defines/userlist_spec.rb'
 
-# Offense count: 3
-# Configuration parameters: AllowSubject.
-RSpec/MultipleMemoizedHelpers:
-  Max: 6
-
 # Offense count: 96
 # Configuration parameters: EnforcedStyle, IgnoreSharedExamples.
 # SupportedStyles: always, named_only
@@ -46,12 +41,7 @@ RSpec/NamedSubject:
     - 'spec/classes/haproxy_spec.rb'
     - 'spec/defines/instance_service_spec.rb'
     - 'spec/defines/instance_spec.rb'
-
-# Offense count: 30
-# Configuration parameters: AllowedGroups.
-RSpec/NestedGroups:
-  Max: 5
-
+  
 # Offense count: 183
 # Configuration parameters: AllowedPatterns.
 # AllowedPatterns: ^expect_, ^assert_
@@ -66,19 +56,3 @@ RSpec/NoExpectationExample:
     - 'spec/classes/haproxy_spec.rb'
     - 'spec/defines/instance_service_spec.rb'
     - 'spec/defines/instance_spec.rb'
-
-# Offense count: 2
-RSpec/RepeatedExampleGroupBody:
-  Exclude:
-    - 'spec/acceptance/basic_spec.rb'
-
-# Offense count: 4
-RSpec/RepeatedExampleGroupDescription:
-  Exclude:
-    - 'spec/acceptance/listen_spec.rb'
-    - 'spec/defines/instance_spec.rb'
-
-# Offense count: 1
-Style/MixinUsage:
-  Exclude:
-    - 'spec/spec_helper.rb'

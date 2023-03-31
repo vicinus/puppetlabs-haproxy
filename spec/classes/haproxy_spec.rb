@@ -122,7 +122,7 @@ describe 'haproxy', type: :class do
           )
         end
 
-        describe 'Base concat fragment contents' do
+        describe 'Base concat fragment contents' do # rubocop:disable RSpec/NestedGroups
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
           # C9936 C9937
@@ -225,7 +225,7 @@ describe 'haproxy', type: :class do
           )
         end
 
-        describe 'Base concat fragment contents' do
+        describe 'Base concat fragment contents' do # rubocop:disable RSpec/NestedGroups
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
           it 'contains global and defaults sections' do
@@ -312,7 +312,7 @@ describe 'haproxy', type: :class do
         )
       end
 
-      describe 'Base concat fragment contents' do
+      describe 'Base concat fragment contents' do # rubocop:disable RSpec/NestedGroups
         let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
         # C9936 C9937
@@ -388,7 +388,7 @@ describe 'haproxy', type: :class do
         )
       end
 
-      describe 'Base concat fragment contents' do
+      describe 'Base concat fragment contents' do # rubocop:disable RSpec/NestedGroups
         let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
         it 'contains global and defaults sections' do
