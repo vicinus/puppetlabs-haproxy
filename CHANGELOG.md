@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.0.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v7.0.0) (2023-04-03)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.5.0...v7.0.0)
+
+### Changed
+
+- \(Cont 779\) Add Support for Puppet 8 / Drop Support for Puppet 6 [\#544](https://github.com/puppetlabs/puppetlabs-haproxy/pull/544) ([david22swan](https://github.com/david22swan))
+
 ## [v6.5.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.5.0) (2023-03-31)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.4.0...v6.5.0)
