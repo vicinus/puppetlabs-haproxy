@@ -588,7 +588,7 @@ The name of the balancer member server as known to haproxy in the
  in which case a balancermember is created for each pair of
  server_names and ipaddresses (in lockstep).
 
-Default value: `$hostname`
+Default value: `$facts['networking']['hostname']`
 
 ##### <a name="-haproxy--balancermember--ipaddresses"></a>`ipaddresses`
 
@@ -597,7 +597,7 @@ Data type: `Variant[String, Array]`
 The ip address used to contact the balancer member server.
  Can be an array, see documentation to server_names.
 
-Default value: `$ipaddress`
+Default value: `$facts['networking']['ip']`
 
 ##### <a name="-haproxy--balancermember--prefix"></a>`prefix`
 
@@ -1469,7 +1469,7 @@ Sets the name of the mailer server in the mailers configuration block.
  ipaddresses parameter's array. A mailer is created for each pair
  of server\_names and ipaddresses in the array.
 
-Default value: `$hostname`
+Default value: `$facts['networking']['hostname']`
 
 ##### <a name="-haproxy--mailer--ipaddresses"></a>`ipaddresses`
 
@@ -1480,7 +1480,7 @@ Specifies the IP address used to contact the mailer member server.
  must be the same length as the server\_names parameter's array.
  A mailer is created for each pair of address and server_name.
 
-Default value: `$ipaddress`
+Default value: `$facts['networking']['ip']`
 
 ##### <a name="-haproxy--mailer--port"></a>`port`
 
@@ -1684,7 +1684,7 @@ specified as an array, it must be the same length as the
 ipaddresses parameter's array. A peer is created for each pair
 of server\_names and ipaddresses in the array.
 
-Default value: `$hostname`
+Default value: `$facts['networking']['hostname']`
 
 ##### <a name="-haproxy--peer--ipaddresses"></a>`ipaddresses`
 
@@ -1695,7 +1695,7 @@ Can be an array. If this parameter is specified as an array it
 must be the same length as the server\_names parameter's array.
 A peer is created for each pair of address and server_name.
 
-Default value: `$ipaddress`
+Default value: `$facts['networking']['ip']`
 
 ##### <a name="-haproxy--peer--port"></a>`port`
 
