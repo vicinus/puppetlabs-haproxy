@@ -8,12 +8,12 @@ describe 'haproxy::frontend' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1',
+        ip: '1.1.1.1'
       },
       os: {
-        family: 'RedHat',
+        family: 'RedHat'
       },
-      concat_basedir: '/dne',
+      concat_basedir: '/dne'
     }
   end
 
@@ -22,79 +22,83 @@ describe 'haproxy::frontend' do
       {
         name: 'croy',
         ipaddress: '1.1.1.1',
-        ports: '18140',
+        ports: '18140'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_frontend_block').with(
-        'order'   => '15-croy-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-croy-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend croy\n  bind 1.1.1.1:18140 \n  option tcplog\n",
       )
     }
   end
+
   # C9948 C9947
   context 'when an array of ports is provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: ['80', '443'],
+        ports: ['80', '443']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
       )
     }
   end
+
   # C9948
   context 'when a comma-separated list of ports is provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: '80,443',
+        ports: '80,443'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
       )
     }
   end
+
   # C9971
   context 'when empty list of ports is provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: [],
+        ports: []
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  option tcplog\n",
       )
     }
   end
+
   # C9972
   context 'when a port is provided greater than 65535' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: '80443',
+        ports: '80443'
       }
     end
 
@@ -102,13 +106,14 @@ describe 'haproxy::frontend' do
       expect { catalogue }.to raise_error Puppet::Error, %r{outside of range}
     end
   end
+
   # C9946
   context 'when multiple ports are provided greater than 65535' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: ['80443', '80444'],
+        ports: ['80443', '80444']
       }
     end
 
@@ -116,13 +121,14 @@ describe 'haproxy::frontend' do
       expect { catalogue }.to raise_error Puppet::Error, %r{outside of range}
     end
   end
+
   # C9973
   context 'when an invalid ipv4 address is passed' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '2323.23.23',
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -130,13 +136,14 @@ describe 'haproxy::frontend' do
       expect { catalogue }.to raise_error Puppet::Error, %r{Invalid IP address}
     end
   end
+
   # C9949
   context 'when a ports parameter and a bind parameter are passed' do
     let(:params) do
       {
         name: 'apache',
         bind: { '192.168.0.1:80' => ['ssl'] },
-        ports: '80',
+        ports: '80'
       }
     end
 
@@ -144,37 +151,39 @@ describe 'haproxy::frontend' do
       expect { catalogue }.to raise_error Puppet::Error, %r{mutually exclusive}
     end
   end
+
   context 'when multiple IPs are provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: ['23.23.23.23', '23.23.23.24'],
-        ports: '80',
+        ports: '80'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.24:80 \n  option tcplog\n",
       )
     }
   end
+
   context 'when bind options are provided' do
     let(:params) do
       {
         name: 'apache',
         ipaddress: '1.1.1.1',
         ports: ['80', '8080'],
-        bind_options: ['the options', 'go here'],
+        bind_options: ['the options', 'go here']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 1.1.1.1:80 the options go here\n  bind 1.1.1.1:8080 the options go here\n  option tcplog\n",
       )
     }
@@ -184,14 +193,14 @@ describe 'haproxy::frontend' do
     let(:params) do
       {
         name: 'apache',
-        bind: { '1.1.1.1:80' => [] },
+        bind: { '1.1.1.1:80' => [] }
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 1.1.1.1:80 \n  option tcplog\n",
       )
     }
@@ -202,19 +211,19 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         bind: {
-          '1.1.1.1:80'                 => [],
-          ':443,:8443'                 => ['ssl', 'crt public.puppetlabs.com', 'no-sslv3'],
-          '2.2.2.2:8000-8010'          => ['ssl', 'crt public.puppetlabs.com'],
-          'fd@${FD_APP1}'              => [],
-          '/var/run/ssl-frontend.sock' => ['user root', 'mode 600', 'accept-proxy'],
-        },
+          '1.1.1.1:80' => [],
+          ':443,:8443' => ['ssl', 'crt public.puppetlabs.com', 'no-sslv3'],
+          '2.2.2.2:8000-8010' => ['ssl', 'crt public.puppetlabs.com'],
+          'fd@${FD_APP1}' => [],
+          '/var/run/ssl-frontend.sock' => ['user root', 'mode 600', 'accept-proxy']
+        }
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  option tcplog\n", # rubocop:disable Layout/LineLength
       )
     }
@@ -225,21 +234,21 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         bind: {
-          '10.1.3.21:80'      => [],
-          '8.252.206.100:80'  => [],
-          '8.252.206.101:80'  => [],
-          '8.252.206.99:80'   => [],
-          '1.1.1.1:80'        => [],
-          ':443,:8443'        => ['ssl', 'crt public.puppetlabs.com', 'no-sslv3'],
-          '2.2.2.2:8000-8010' => ['ssl', 'crt public.puppetlabs.com'],
-        },
+          '10.1.3.21:80' => [],
+          '8.252.206.100:80' => [],
+          '8.252.206.101:80' => [],
+          '8.252.206.99:80' => [],
+          '1.1.1.1:80' => [],
+          ':443,:8443' => ['ssl', 'crt public.puppetlabs.com', 'no-sslv3'],
+          '2.2.2.2:8000-8010' => ['ssl', 'crt public.puppetlabs.com']
+        }
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 \n  bind 8.252.206.100:80 \n  bind 8.252.206.101:80 \n  bind 10.1.3.21:80 \n  option tcplog\n", # rubocop:disable Layout/LineLength
       )
     }
@@ -250,7 +259,7 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         bind: {
-          '0.0.0.0:48001-48003' => [],
+          '0.0.0.0:48001-48003' => []
         },
         mode: 'http',
         options: [
@@ -260,16 +269,16 @@ describe 'haproxy::frontend' do
           { 'acl'                    => ['dst_dev01 dst_port 48001', 'dst_dev02 dst_port 48002', 'dst_dev03 dst_port 48003'] },
           { 'use_backend'            => ['dev01_webapp if dst_dev01', 'dev02_webapp if dst_dev02', 'dev03_webapp if dst_dev03'] },
           { 'option'                 => ['httplog', 'http-server-close', 'forwardfor except 127.0.0.1'] },
-          { 'compression'            => 'algo gzip',
-            'bind-process'           => 'all' },
-        ],
+          { 'compression' => 'algo gzip',
+            'bind-process' => 'all' },
+        ]
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '15-apache-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  reqadd X-Forwarded-Proto:\\ https\n  default_backend dev00_webapp\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  bind-process all\n  compression algo gzip\n", # rubocop:disable Layout/LineLength
       )
     }
@@ -281,14 +290,14 @@ describe 'haproxy::frontend' do
         name: 'apache',
         bind: { '1.1.1.1:80' => [] },
         defaults: 'test',
-        options: { 'default_backend' => 'b1' },
+        options: { 'default_backend' => 'b1' }
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order'   => '25-test-b1-00-apache',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '25-test-b1-00-apache',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend apache\n  bind 1.1.1.1:80 \n  default_backend b1\n",
       )
     }
@@ -306,8 +315,8 @@ describe 'haproxy::frontend' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-baz_frontend_block').with(
-        'order'   => '15-baz-00',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '15-baz-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "\nfrontend baz\n  stick-table #{buzz}\n  stick on dst\n",
       )
     }
@@ -319,13 +328,13 @@ describe 'haproxy::frontend' do
       {
         name: 'bar',
         bind: {
-          '*:5000' => [],
+          '*:5000' => []
         },
         options: {
           'option' => [
             'tcplog',
-          ],
-        },
+          ]
+        }
       }
     end
 

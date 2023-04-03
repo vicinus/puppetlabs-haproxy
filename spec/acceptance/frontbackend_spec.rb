@@ -6,7 +6,7 @@ describe 'frontend backend defines' do
   pp_one = <<-PUPPETCODE
       class { 'haproxy': }
       haproxy::frontend { 'app00':
-        ipaddress => $::ipaddress_lo,
+        ipaddress => $facts['networking']['interfaces']['lo']['ip'],
         mode      => 'http',
         ports     => '5555',
         options   => { 'default_backend' => 'app00' },
@@ -35,7 +35,7 @@ describe 'frontend backend defines' do
   # This is not great since it depends on the ordering served by the load
   # balancer. Something with retries would be better.
   # C9945
-  it 'does a curl against the LB to make sure it gets a response from each port' do
+  it 'does a curl against the LB to make sure it gets a response from each port' do # rubocop:disable RSpec/ExampleLength
     response_connection = run_shell('curl localhost:5555').stdout.chomp
     expect(response_connection).to match(%r{Response on 555(6|7)})
     if response_connection == 'Response on 5556'
@@ -48,7 +48,7 @@ describe 'frontend backend defines' do
   pp_two = <<-PUPPETCODE
       class { 'haproxy': }
       haproxy::frontend { 'app00':
-        ipaddress => $::ipaddress_lo,
+        ipaddress => $facts['networking']['interfaces']['lo']['ip'],
         mode      => 'http',
         ports     => '5555',
         options   => { 'default_backend' => 'app00' },

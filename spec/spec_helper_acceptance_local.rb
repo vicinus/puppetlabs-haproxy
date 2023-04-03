@@ -31,6 +31,7 @@ def retry_on_error_matching(max_retry_count = MAX_RETRY_COUNT, retry_wait_interv
     yield
   rescue StandardError => e
     raise unless try < max_retry_count && (error_matcher.nil? || e.message =~ error_matcher)
+
     sleep retry_wait_interval_secs
     retry
   end
@@ -43,9 +44,7 @@ RSpec.configure do |c|
 
     if os[:family] == 'redhat' && os[:release].to_i != 8
       epel_owner = 'puppet'
-      if os[:release].to_i == 6
-        epel_owner = 'stahnma'
-      end
+      epel_owner = 'stahnma' if os[:release].to_i == 6
       LitmusHelper.instance.run_shell("puppet module install #{epel_owner}/epel")
       if os[:release][0].match?(%r{5|6})
         pp = <<-PP

@@ -19,7 +19,7 @@ describe 'userlist define', unless: (os[:family] == 'redhat' && os[:release][0] 
 
       haproxy::listen { 'app00':
         collect_exported => false,
-        ipaddress        => $::ipaddress_lo,
+        ipaddress        => $facts['networking']['interfaces']['lo']['ip'],
         ports            => '5555',
         options          => {
           'mode'         => 'http',
@@ -35,7 +35,7 @@ describe 'userlist define', unless: (os[:family] == 'redhat' && os[:release][0] 
 
       haproxy::listen { 'app01':
         collect_exported => false,
-        ipaddress        => $::ipaddress_lo,
+        ipaddress        => $facts['networking']['interfaces']['lo']['ip'],
         ports            => '5554',
         options          => {
           'mode'         => 'http',
@@ -59,6 +59,7 @@ describe 'userlist define', unless: (os[:family] == 'redhat' && os[:release][0] 
   it 'test1 should auth as user' do
     expect(run_shell('curl http://test1:elgato@localhost:5555').stdout.chomp).to eq('Response on 5556')
   end
+
   it 'test2 should auth as user' do
     expect(run_shell('curl http://test2:elgato@localhost:5555').stdout.chomp).to eq('Response on 5556')
   end

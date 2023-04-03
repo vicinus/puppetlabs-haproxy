@@ -7,16 +7,16 @@ describe 'haproxy::instance_service' do
     {
       concat_basedir: '/dne',
       networking: {
-        ip: '10.10.10.10',
+        ip: '10.10.10.10'
       },
       os: {
-        family: 'Debian',
-      },
+        family: 'Debian'
+      }
     }
   end
   let(:params) do
     {
-      'haproxy_init_source' => 'foo',
+      'haproxy_init_source' => 'foo'
     }
   end
 
@@ -27,7 +27,7 @@ describe 'haproxy::instance_service' do
       let(:title) { 'haproxy' }
       let(:params) do
         {
-          'haproxy_init_source' => '/foo/bar',
+          'haproxy_init_source' => '/foo/bar'
         }
       end
 
@@ -36,18 +36,21 @@ describe 'haproxy::instance_service' do
           'ensure' => 'present',
         )
       end
+
       it 'creates the exec directory' do
         subject.should contain_file('/opt/haproxy/bin').with(
           'ensure' => 'directory', 'owner' => 'root',
           'group' => 'root', 'mode' => '0744'
         )
       end
+
       it 'creates a link to the exec' do
         subject.should contain_file('/opt/haproxy/bin/haproxy-haproxy').with(
           'ensure' => 'link',
           'target' => '/usr/sbin/haproxy',
         )
       end
+
       it 'does not create an init.d file' do
         subject.should_not contain_file('/etc/init.d/haproxy-haproxy').with(
           'ensure' => 'file',
@@ -62,13 +65,13 @@ describe 'haproxy::instance_service' do
       let(:pre_condition) do
         <<-PUPPETCODE
         service {'haproxy-#{title}': }
-      PUPPETCODE
+        PUPPETCODE
       end
       let(:params) do
         {
-          'haproxy_package'     => 'customhaproxy',
-          'bindir'              => '/weird/place',
-          'haproxy_init_source' => '/foo/bar',
+          'haproxy_package' => 'customhaproxy',
+          'bindir' => '/weird/place',
+          'haproxy_init_source' => '/foo/bar'
         }
       end
 
@@ -77,23 +80,27 @@ describe 'haproxy::instance_service' do
           'ensure' => 'present',
         )
       end
+
       it 'creates the exec directory' do
         subject.should contain_file('/weird/place').with(
           'ensure' => 'directory', 'owner' => 'root',
           'group' => 'root', 'mode' => '0744'
         )
       end
+
       it 'creates a link to the exec' do
         subject.should contain_file('/weird/place/haproxy-haproxy').with(
           'ensure' => 'link',
           'target' => '/opt/customhaproxy/sbin/haproxy',
         )
       end
+
       it 'does not create an init.d file' do
         subject.should_not contain_file('/etc/init.d/haproxy-haproxy').with(
           'ensure' => 'file',
         )
       end
+
       it 'does not manage the default init.d file' do
         subject.should_not contain_file('/etc/init.d/haproxy').with(
           'ensure' => 'file',
@@ -108,11 +115,11 @@ describe 'haproxy::instance_service' do
       let(:pre_condition) do
         <<-PUPPETCODE
         service {'haproxy-#{title}': }
-      PUPPETCODE
+        PUPPETCODE
       end
       let(:params) do
         {
-          'haproxy_init_source' => '/foo/bar',
+          'haproxy_init_source' => '/foo/bar'
         }
       end
 
@@ -121,18 +128,21 @@ describe 'haproxy::instance_service' do
           'ensure' => 'present',
         )
       end
+
       it 'creates the exec directory' do
         subject.should contain_file('/opt/haproxy/bin').with(
           'ensure' => 'directory', 'owner' => 'root',
           'group' => 'root', 'mode' => '0744'
         )
       end
+
       it 'creates a link to the exec' do
         subject.should contain_file('/opt/haproxy/bin/haproxy-group1').with(
           'ensure' => 'link',
           'target' => '/usr/sbin/haproxy',
         )
       end
+
       it 'does not create an init.d file' do
         subject.should_not contain_file('/etc/init.d/haproxy-haproxy').with(
           'ensure' => 'file',
@@ -152,9 +162,9 @@ describe 'haproxy::instance_service' do
     end
     let(:params) do
       {
-        'haproxy_package'     => 'customhaproxy',
-        'bindir'              => '/weird/place',
-        'haproxy_init_source' => '/init/source/haproxy',
+        'haproxy_package' => 'customhaproxy',
+        'bindir' => '/weird/place',
+        'haproxy_init_source' => '/init/source/haproxy'
       }
     end
 
@@ -163,18 +173,21 @@ describe 'haproxy::instance_service' do
         'ensure' => 'present',
       )
     end
+
     it 'creates the exec directory' do
       subject.should contain_file('/weird/place').with(
         'ensure' => 'directory', 'owner' => 'root',
         'group' => 'root', 'mode' => '0744'
       )
     end
+
     it 'creates a link to the exec' do
       subject.should contain_file('/weird/place/haproxy-group1').with(
         'ensure' => 'link',
         'target' => '/opt/customhaproxy/sbin/haproxy',
       )
     end
+
     it 'removes any obsolete init.d file' do
       subject.should contain_file('/etc/init.d/haproxy-group1').with(
         'ensure' => 'absent',

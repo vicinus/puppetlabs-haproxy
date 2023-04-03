@@ -12,12 +12,12 @@ describe 'haproxy::mailers' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1',
+        ip: '1.1.1.1'
       },
       concat_basedir: '/foo',
       os: {
-        family: 'RedHat',
-      },
+        family: 'RedHat'
+      }
     }
   end
 
@@ -26,8 +26,8 @@ describe 'haproxy::mailers' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-bar_mailers_block').with(
-        'order'   => '40-mailers-00-bar',
-        'target'  => '/tmp/haproxy.cfg',
+        'order' => '40-mailers-00-bar',
+        'target' => '/tmp/haproxy.cfg',
         'content' => "\nmailers bar\n",
       )
     }

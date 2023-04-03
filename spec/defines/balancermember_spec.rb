@@ -7,12 +7,14 @@ describe 'haproxy::balancermember' do
   let(:title) { 'tyler' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      hostname: 'dero',
-      os: {
-        family: 'Redhat',
+      networking: {
+        ip: '1.1.1.1',
+        hostname: 'dero'
       },
-      concat_basedir: '/dne',
+      os: {
+        family: 'Redhat'
+      },
+      concat_basedir: '/dne'
     }
   end
 
@@ -22,14 +24,14 @@ describe 'haproxy::balancermember' do
         name: 'tyler',
         listening_service: 'croy',
         ports: '18140',
-        options: 'check',
+        options: 'check'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check\n",
       )
     }
@@ -41,14 +43,14 @@ describe 'haproxy::balancermember' do
         name: 'tyler',
         listening_service: 'croy',
         ports: '18140',
-        options: ['check', 'close'],
+        options: ['check', 'close']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check close\n",
       )
     }
@@ -61,14 +63,14 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         ports: '18140',
         options: ['check', 'close'],
-        define_cookies: true,
+        define_cookies: true
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 cookie dero check close\n",
       )
     }
@@ -81,18 +83,19 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         ports: '18140',
         options: ['check', 'close'],
-        verifyhost: true,
+        verifyhost: true
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check close verifyhost dero\n",
       )
     }
   end
+
   context 'with multiple servers' do
     let(:params) do
       {
@@ -101,18 +104,19 @@ describe 'haproxy::balancermember' do
         ports: '18140',
         server_names: ['server01', 'server02'],
         ipaddresses: ['192.168.56.200', '192.168.56.201'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server server01 192.168.56.200:18140 check\n  server server02 192.168.56.201:18140 check\n",
       )
     }
   end
+
   context 'with multiple servers and multiple ports' do
     let(:params) do
       {
@@ -121,18 +125,19 @@ describe 'haproxy::balancermember' do
         ports: ['18140', '18150'],
         server_names: ['server01', 'server02'],
         ipaddresses: ['192.168.56.200', '192.168.56.201'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server server01 192.168.56.200:18140 check\n  server server01 192.168.56.200:18150 check\n  server server02 192.168.56.201:18140 check\n  server server02 192.168.56.201:18150 check\n", # rubocop:disable Layout/LineLength
       )
     }
   end
+
   context 'with multiple servers and no port' do
     let(:params) do
       {
@@ -140,18 +145,19 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         server_names: ['server01', 'server02'],
         ipaddresses: ['192.168.56.200', '192.168.56.201'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server server01 192.168.56.200 check\n  server server02 192.168.56.201 check\n",
       )
     }
   end
+
   context 'when a non-default config file is used' do
     let(:pre_condition) { 'class { "haproxy": config_file => "/etc/non-default.cfg" }' }
     let(:params) do
@@ -160,7 +166,7 @@ describe 'haproxy::balancermember' do
         listening_service: 'baz',
         server_names: ['server01', 'server02'],
         ipaddresses: ['10.0.0.1', '10.0.0.2'],
-        options: ['check'],
+        options: ['check']
       }
     end
 
@@ -172,6 +178,7 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
   context 'with weight' do
     let(:params) do
       {
@@ -179,59 +186,59 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         ports: '18140',
         options: 'check',
-        weight: '100',
+        weight: '100'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server dero 1.1.1.1:18140 check weight 100\n",
       )
     }
   end
 
-  context 'server-template' do
+  context 'with server-template' do
     let(:params) do
       {
         name: 'tyler',
         type: 'server-template',
         listening_service: 'croy',
-        fqdn: 'myserver.example.local',
+        fqdn: 'myserver.example.local'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 1 myserver.example.local \n",
       )
     }
   end
 
-  context 'server-template with port' do
+  context 'with server-template with port' do
     let(:params) do
       {
         name: 'tyler',
         type: 'server-template',
         listening_service: 'croy',
         fqdn: 'myserver.example.local',
-        port: '8080',
+        port: '8080'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 1 myserver.example.local:8080 \n",
       )
     }
   end
 
-  context 'server-template with port with num amount' do
+  context 'with server-template with port with num amount' do
     let(:params) do
       {
         name: 'tyler',
@@ -239,20 +246,20 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         fqdn: 'myserver.example.local',
         port: '8080',
-        amount: '5',
+        amount: '5'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 5 myserver.example.local:8080 \n",
       )
     }
   end
 
-  context 'server-template with port with range amount' do
+  context 'with server-template with port with range amount' do
     let(:params) do
       {
         name: 'tyler',
@@ -260,20 +267,20 @@ describe 'haproxy::balancermember' do
         listening_service: 'croy',
         fqdn: 'myserver.example.local',
         port: '8080',
-        amount: '1-10',
+        amount: '1-10'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template server 1-10 myserver.example.local:8080 \n",
       )
     }
   end
 
-  context 'server-template with port with range amount with server prefix' do
+  context 'with server-template with port with range amount with server prefix' do
     let(:params) do
       {
         name: 'tyler',
@@ -282,20 +289,20 @@ describe 'haproxy::balancermember' do
         fqdn: 'myserver.example.local',
         port: '8080',
         amount: '1-10',
-        prefix: 'srv',
+        prefix: 'srv'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 \n",
       )
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options' do
+  context 'with server-template with port with range amount with server prefix with options' do
     let(:params) do
       {
         name: 'tyler',
@@ -305,20 +312,20 @@ describe 'haproxy::balancermember' do
         port: '8080',
         amount: '1-10',
         prefix: 'srv',
-        options: 'check',
+        options: 'check'
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 check\n",
       )
     }
   end
 
-  context 'server-template with port with range amount with server prefix with multiple options' do
+  context 'with server-template with port with range amount with server prefix with multiple options' do
     let(:params) do
       {
         name: 'tyler',
@@ -328,20 +335,20 @@ describe 'haproxy::balancermember' do
         port: '8080',
         amount: '1-10',
         prefix: 'srv',
-        options: ['check', 'close'],
+        options: ['check', 'close']
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 check close\n",
       )
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options with weight' do
+  context 'with server-template with port with range amount with server prefix with options with weight' do
     let(:params) do
       {
         name: 'tyler',
@@ -352,20 +359,20 @@ describe 'haproxy::balancermember' do
         amount: '1-10',
         prefix: 'srv',
         options: 'check',
-        weight: 100,
+        weight: 100
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 check weight 100\n",
       )
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options with weight with cookies' do
+  context 'with server-template with port with range amount with server prefix with options with weight with cookies' do
     let(:params) do
       {
         name: 'tyler',
@@ -377,20 +384,20 @@ describe 'haproxy::balancermember' do
         prefix: 'srv',
         options: 'check',
         weight: 100,
-        define_cookies: true,
+        define_cookies: true
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 cookie myserver.example.local check weight 100\n",
       )
     }
   end
 
-  context 'server-template with port with range amount with server prefix with options with weight with cookies with verifyhost' do
+  context 'with server-template with port with range amount with server prefix with options with weight with cookies with verifyhost' do
     let(:params) do
       {
         name: 'tyler',
@@ -403,14 +410,14 @@ describe 'haproxy::balancermember' do
         options: 'check',
         weight: 100,
         define_cookies: true,
-        verifyhost: true,
+        verifyhost: true
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-        'order'   => '20-croy-01-tyler',
-        'target'  => '/etc/haproxy/haproxy.cfg',
+        'order' => '20-croy-01-tyler',
+        'target' => '/etc/haproxy/haproxy.cfg',
         'content' => "  server-template srv 1-10 myserver.example.local:8080 cookie myserver.example.local check verifyhost myserver.example.local weight 100\n",
       )
     }

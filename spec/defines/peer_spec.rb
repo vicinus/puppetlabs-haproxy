@@ -12,12 +12,14 @@ describe 'haproxy::peer' do
   let(:title) { 'dero' }
   let(:facts) do
     {
-      ipaddress: '1.1.1.1',
-      hostname: 'dero',
+      networking: {
+        ip: '1.1.1.1',
+        hostname: 'dero'
+      },
       concat_basedir: '/foo',
       os: {
-        family: 'RedHat',
-      },
+        family: 'RedHat'
+      }
     }
   end
 
@@ -25,14 +27,14 @@ describe 'haproxy::peer' do
     let(:params) do
       {
         peers_name: 'tyler',
-        port: 1024,
+        port: 1024
       }
     end
 
     it {
       is_expected.to contain_concat__fragment('haproxy-peers-tyler-dero').with(
-        'order'   => '30-peers-01-tyler-dero',
-        'target'  => '/tmp/haproxy.cfg',
+        'order' => '30-peers-01-tyler-dero',
+        'target' => '/tmp/haproxy.cfg',
         'content' => "  peer dero 1.1.1.1:1024\n",
       )
     }
