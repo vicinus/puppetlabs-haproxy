@@ -137,7 +137,7 @@ define haproxy::frontend (
   if $defaults == undef {
     $order = "15-${section_name}-00"
   } else {
-    if $defaults_use_backend and has_key($options, 'default_backend') {
+    if $defaults_use_backend and 'default_backend' in $options {
       $order = "25-${defaults}-${options['default_backend']}-00-${section_name}"
     } else {
       $order = "25-${defaults}-${section_name}-00"
