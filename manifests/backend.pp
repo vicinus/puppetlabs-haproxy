@@ -109,7 +109,7 @@ define haproxy::backend (
   if $picked_sort_options_alphabetic == false {
     $_sort_options_alphabetic = $picked_sort_options_alphabetic
   } else {
-    if $options.is_hash and has_key($options, 'option') {
+    if $options.is_hash and 'option' in $options {
       if ('httpchk' in $options['option']) {
         warning('Overriding the value of $sort_options_alphabetic to "false" due to "httpchk" option defined')
         $_sort_options_alphabetic = false
