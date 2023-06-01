@@ -123,7 +123,7 @@ define haproxy::listen (
   if $ipaddress == undef and $bind == undef {
     fail('Either $ipaddress or $bind is needed, please choose one')
   }
-  if $bind_options                            != '' {
+  if $bind_options {
     warning('The $bind_options parameter is deprecated; please use $bind instead')
   }
 
