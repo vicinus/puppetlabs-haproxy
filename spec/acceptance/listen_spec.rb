@@ -50,7 +50,6 @@ describe 'listen define' do
           listening_service => 'app00',
           server_names      => 'test00.example.com',
           ports             => '5556',
-          options           => 'check',
         }
         haproxy::balancermember { 'port 5557':
           listening_service => 'app00',
