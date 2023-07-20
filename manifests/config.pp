@@ -70,11 +70,17 @@ define haproxy::config (
       content => "# This file is managed by Puppet\n",
     }
 
+    $parameters = {
+      '_global_options'   => $_global_options,
+      '_defaults_options' => $_defaults_options,
+      'custom_fragment'   => $custom_fragment,
+    }
+
     # Template uses $_global_options, $_defaults_options, $custom_fragment
     concat::fragment { "${instance_name}-haproxy-base":
       target  => $_config_file,
       order   => '10',
-      content => template("${module_name}/haproxy-base.cfg.erb"),
+      content => epp("${module_name}/haproxy-base.cfg.epp", $parameters),
     }
   }
 

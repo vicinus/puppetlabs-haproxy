@@ -125,11 +125,19 @@ define haproxy::backend (
     $order = "25-${defaults}-${section_name}-01"
   }
 
+  $parameters = {
+    'section_name'             => $section_name,
+    'mode'                     => $mode,
+    'description'              => $description,
+    '_sort_options_alphabetic' => $_sort_options_alphabetic,
+    'options'                  => $options,
+  }
+
   # Template uses: $section_name, $ipaddress, $ports, $options
   concat::fragment { "${instance_name}-${section_name}_backend_block":
     order   => $order,
     target  => $_config_file,
-    content => template('haproxy/haproxy_backend_block.erb'),
+    content => epp('haproxy/haproxy_backend_block.epp', $parameters),
   }
 
   if $collect_exported {

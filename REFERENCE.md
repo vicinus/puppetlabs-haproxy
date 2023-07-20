@@ -1247,7 +1247,7 @@ Data type: `String`
 
 The template that will be used to create an unit file.
 
-Default value: `'haproxy/instance_service_unit.erb'`
+Default value: `'haproxy/instance_service_unit.epp'`
 
 ### <a name="haproxy--listen"></a>`haproxy::listen`
 

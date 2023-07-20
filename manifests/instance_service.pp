@@ -42,7 +42,7 @@
 #
 define haproxy::instance_service (
   Optional[String]      $haproxy_init_source    = undef,
-  String                $haproxy_unit_template  = 'haproxy/instance_service_unit.erb',
+  String                $haproxy_unit_template  = 'haproxy/instance_service_unit.epp',
   String                $haproxy_package        = 'haproxy',
   Stdlib::Absolutepath  $bindir                 = '/opt/haproxy/bin',
 ) {
@@ -103,12 +103,16 @@ define haproxy::instance_service (
         $unitfile = "/lib/systemd/system/haproxy-${title}.service"
       }
 
+      $parameters = {
+        'title'   => $title,
+        'wrapper' => $wrapper,
+      }
       file { $unitfile:
         ensure  => file,
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
-        content => template($haproxy_unit_template),
+        content => epp($haproxy_unit_template, $parameters),
         notify  => Exec['systemctl daemon-reload'],
       }
       if (!defined(Exec['systemctl daemon-reload'])) {

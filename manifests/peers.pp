@@ -41,7 +41,7 @@ define haproxy::peers (
   concat::fragment { "${instance_name}-${name}_peers_block":
     order   => "30-peers-00-${name}",
     target  => $_config_file,
-    content => template('haproxy/haproxy_peers_block.erb'),
+    content => epp('haproxy/haproxy_peers_block.epp', { 'name' => $name }),
   }
 
   if $collect_exported {

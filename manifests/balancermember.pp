@@ -167,10 +167,25 @@ define haproxy::balancermember (
   } else {
     $order = "25-${defaults}-${listening_service}-02-${name}"
   }
+
+  $parameters = {
+    'type'           => $type,
+    'ipaddresses'    => $ipaddresses,
+    'server_names'   => $server_names,
+    'ports'          => $ports,
+    'define_cookies' => $define_cookies,
+    'options'        => $options,
+    'verifyhost'     => $verifyhost,
+    'weight'         => $weight,
+    'prefix'         => $prefix,
+    'amount'         => $amount,
+    'fqdn'           => $fqdn,
+    'port'           => $port,
+  }
   # Template uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-${listening_service}_balancermember_${name}":
     order   => $order,
     target  => $_config_file,
-    content => template('haproxy/haproxy_balancermember.erb'),
+    content => epp('haproxy/haproxy_balancermember.epp', $parameters),
   }
 }

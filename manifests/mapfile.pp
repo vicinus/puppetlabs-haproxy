@@ -57,9 +57,14 @@ define haproxy::mapfile (
     notify => Haproxy::Service[$_instances],
   }
 
+  $parameters = {
+    'mappings'     => $mappings,
+    'mapfile_name' => $mapfile_name,
+  }
+
   concat::fragment { "haproxy_mapfile_${mapfile_name}-top":
     target  => $_mapfile_name,
-    content => template('haproxy/haproxy_mapfile.erb'),
+    content => epp('haproxy/haproxy_mapfile.epp', $parameters),
     order   => '00',
   }
 }

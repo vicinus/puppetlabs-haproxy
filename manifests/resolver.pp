@@ -131,11 +131,20 @@ define haproxy::resolver (
     $order = "25-${defaults}-${section_name}-02"
   }
 
+  $parameters = {
+    'section_name'          => $section_name,
+    'nameservers'           => $nameservers,
+    'parse_resolv_conf'     => $parse_resolv_conf,
+    'resolve_retries'       => $resolve_retries,
+    'timeout'               => $timeout,
+    'hold'                  => $hold,
+    'accepted_payload_size' => $accepted_payload_size,
+  }
   # Template uses: $section_name
   concat::fragment { "${instance_name}-${section_name}_resolver_block":
     order   => $order,
     target  => $_config_file,
-    content => template('haproxy/haproxy_resolver_block.erb'),
+    content => epp('haproxy/haproxy_resolver_block.epp', $parameters),
   }
 
   if $collect_exported {

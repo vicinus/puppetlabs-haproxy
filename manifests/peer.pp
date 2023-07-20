@@ -56,10 +56,16 @@ define haproxy::peer (
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
 
+  $parameters = {
+    'ipaddresses'  => $ipaddresses,
+    'server_names' => $server_names,
+    'port'         => $port,
+  }
+
   # Templates uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-peers-${peers_name}-${name}":
     order   => "30-peers-01-${peers_name}-${name}",
     target  => $_config_file,
-    content => template('haproxy/haproxy_peer.erb'),
+    content => epp('haproxy/haproxy_peer.epp', $parameters),
   }
 }

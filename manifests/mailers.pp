@@ -24,11 +24,15 @@ define haproxy::mailers (
     $config_file = inline_template($haproxy::params::config_file_tmpl)
   }
 
+  $parameters = {
+    'name' => $name,
+  }
+
   # Template uses: $name
   concat::fragment { "${instance_name}-${name}_mailers_block":
     order   => "40-mailers-00-${name}",
     target  => $config_file,
-    content => template('haproxy/haproxy_mailers_block.erb'),
+    content => epp('haproxy/haproxy_mailers_block.epp', $parameters),
   }
 
   if $collect_exported {

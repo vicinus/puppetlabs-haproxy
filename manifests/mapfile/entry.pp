@@ -29,9 +29,14 @@ define haproxy::mapfile::entry (
 ) {
   $_mapfile_name = "${haproxy::config_dir}/${mapfile}.map"
 
+  $parameters = {
+    'mappings'     => $mappings,
+    'mapfile_name' => $title,
+  }
+
   concat::fragment { "haproxy_mapfile_${mapfile}-${title}":
     target  => $_mapfile_name,
-    content => template('haproxy/haproxy_mapfile.erb'),
+    content => epp('haproxy/haproxy_mapfile.epp', $parameters),
     order   => $order,
   }
 }
