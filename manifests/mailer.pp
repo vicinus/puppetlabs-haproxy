@@ -48,10 +48,16 @@ define haproxy::mailer (
     $config_file = inline_template($haproxy::params::config_file_tmpl)
   }
 
+  $parameters = {
+    'ipaddresses'  => $ipaddresses,
+    'server_names' => $server_names,
+    'port'         => $port,
+  }
+
   # Templates uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-mailers-${mailers_name}-${name}":
     order   => "40-mailers-01-${mailers_name}-${name}",
     target  => $config_file,
-    content => template('haproxy/haproxy_mailer.erb'),
+    content => epp('haproxy/haproxy_mailer.epp', $parameters),
   }
 }

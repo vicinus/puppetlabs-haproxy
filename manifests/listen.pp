@@ -150,11 +150,23 @@ define haproxy::listen (
     $order = "25-${defaults}-${section_name}-00"
   }
 
+  $parameters = {
+    'section_name'             => $section_name,
+    'bind'                     => $bind,
+    'ipaddress'                => $ipaddress,
+    'ports'                    => $ports,
+    'bind_options'             => $bind_options,
+    'mode'                     => $mode,
+    'description'              => $description,
+    'options'                  => $options,
+    '_sort_options_alphabetic' => $_sort_options_alphabetic,
+  }
+
   # Template uses: $section_name, $ipaddress, $ports, $options
   concat::fragment { "${instance_name}-${section_name}_listen_block":
     order   => $order,
     target  => $_config_file,
-    content => template('haproxy/haproxy_listen_block.erb'),
+    content => epp('haproxy/haproxy_listen_block.epp', $parameters),
   }
 
   if $collect_exported {

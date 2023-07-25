@@ -36,9 +36,15 @@ define haproxy::defaults (
   include haproxy::globals
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
+  $parameters = {
+    '_sort_options_alphabetic' => $_sort_options_alphabetic,
+    'options'                  => $options,
+    'name'                     => $name,
+  }
+
   concat::fragment { "${instance_name}-${name}_defaults_block":
     order   => "25-${name}",
     target  => $config_file,
-    content => template('haproxy/haproxy_defaults_block.erb'),
+    content => epp('haproxy/haproxy_defaults_block.epp', $parameters),
   }
 }
