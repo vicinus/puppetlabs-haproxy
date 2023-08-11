@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v7.2.0) - 2023-08-11
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v7.1.0...v7.2.0)
+
+### Added
+
+- (CONT-1144) - Conversion of ERB to EPP templates [#564](https://github.com/puppetlabs/puppetlabs-haproxy/pull/564) ([praj1001](https://github.com/praj1001))
+
+### Fixed
+
+- (CAT-1314) Fix for template bug with maxconn since PR#564 [#569](https://github.com/puppetlabs/puppetlabs-haproxy/pull/569) ([praj1001](https://github.com/praj1001))
+- Correct warnings about deprecated parameter [#557](https://github.com/puppetlabs/puppetlabs-haproxy/pull/557) ([hawkeye-7](https://github.com/hawkeye-7))
+
 ## [v7.1.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v7.1.0) - 2023-07-24
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v7.0.0...v7.1.0)
