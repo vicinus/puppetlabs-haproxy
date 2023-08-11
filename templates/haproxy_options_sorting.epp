@@ -1,12 +1,12 @@
 <% if String(type($options, 'generalized')).index('Hash') == 0 and $option_order.empty { -%>
   <%- $sorted_options = sort($options.keys).map |$key| {[$key, $options[$key]] } -%>
   <%- $sorted_options.each |$values| { -%>
-    <%- if type($values[1], 'generalized') == String { -%>
-  <%= $values[0] %> <%= $values[1] %>
-    <%- } else { -%>
+    <%- if String(type($values[1], 'generalized')).index('Array') == 0 { -%>
       <%- $values[1].filter |$value| { $value != undef }.each |$val| { -%>
   <%= $values[0] %> <%= $val %>
       <%- } -%>
+    <%- } else { -%>
+  <%= $values[0] %> <%= $values[1] %>
     <%- } -%>
   <%- } -%>
 <% } elsif String(type($options, 'generalized')).index('Hash') == 0 and $option_order.empty == false { -%>
@@ -19,12 +19,12 @@
     }
   }.map |$key| {[$key, $options[$key]] } -%>
   <%- $sorted_options.each |$values| { -%>
-    <%- if type($values[1], 'generalized') == String { -%>
-  <%= $values[0] %> <%= $values[1] %>
-    <%- } else { -%>
+    <%- if String(type($values[1], 'generalized')).index('Array') == 0 { -%>
       <%- $values[1].filter |$value| { $value != undef }.each |$val| { -%>
   <%= $values[0] %> <%= $val %>
       <%- } -%>
+    <%- } else { -%>
+  <%= $values[0] %> <%= $values[1] %>
     <%- } -%>
   <%- } -%>
 <% } -%>
