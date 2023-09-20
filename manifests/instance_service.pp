@@ -79,56 +79,44 @@ define haproxy::instance_service (
   if ($title == 'haproxy') and ($haproxy_package == 'haproxy') {
   } else {
     $initfile = "/etc/init.d/haproxy-${title}"
-    if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '6' {
-      # init.d:
-      file { $initfile:
-        ensure => file,
-        mode   => '0744',
-        owner  => 'root',
-        group  => 'root',
-        source => $haproxy_init_source,
-      }
-      File[$haproxy_link] -> File[$initfile]
+# systemd:
+    if $haproxy_package == 'haproxy' {
+      $wrapper = '/usr/sbin/haproxy-systemd-wrapper'
     } else {
-      # systemd:
-      if $haproxy_package == 'haproxy' {
-        $wrapper = '/usr/sbin/haproxy-systemd-wrapper'
-      } else {
-        $wrapper = "/opt/${haproxy_package}/sbin/haproxy-systemd-wrapper"
-      }
+      $wrapper = "/opt/${haproxy_package}/sbin/haproxy-systemd-wrapper"
+    }
 
-      if $facts['os']['family'] == 'RedHat' {
-        $unitfile = "/usr/lib/systemd/system/haproxy-${title}.service"
-      } else {
-        $unitfile = "/lib/systemd/system/haproxy-${title}.service"
-      }
+    if $facts['os']['family'] == 'RedHat' {
+      $unitfile = "/usr/lib/systemd/system/haproxy-${title}.service"
+    } else {
+      $unitfile = "/lib/systemd/system/haproxy-${title}.service"
+    }
 
-      $parameters = {
-        'title'   => $title,
-        'wrapper' => $wrapper,
+    $parameters = {
+      'title'   => $title,
+      'wrapper' => $wrapper,
+    }
+    file { $unitfile:
+      ensure  => file,
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      content => epp($haproxy_unit_template, $parameters),
+      notify  => Exec['systemctl daemon-reload'],
+    }
+    if (!defined(Exec['systemctl daemon-reload'])) {
+      exec { 'systemctl daemon-reload':
+        command     => 'systemctl daemon-reload',
+        path        => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin',
+        refreshonly => true,
+        before      => Service["haproxy-${title}"],
       }
-      file { $unitfile:
-        ensure  => file,
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        content => epp($haproxy_unit_template, $parameters),
-        notify  => Exec['systemctl daemon-reload'],
-      }
-      if (!defined(Exec['systemctl daemon-reload'])) {
-        exec { 'systemctl daemon-reload':
-          command     => 'systemctl daemon-reload',
-          path        => '/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin',
-          refreshonly => true,
-          before      => Service["haproxy-${title}"],
-        }
-      }
-      File[$haproxy_link] -> File[$unitfile]
-      # Clean up in case the old init.d-style file is still around.
-      file { $initfile:
-        ensure => absent,
-        before => Service["haproxy-${title}"],
-      }
+    }
+    File[$haproxy_link] -> File[$unitfile]
+    # Clean up in case the old init.d-style file is still around.
+    file { $initfile:
+      ensure => absent,
+      before => Service["haproxy-${title}"],
     }
   }
 

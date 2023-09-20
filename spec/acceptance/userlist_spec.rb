@@ -2,7 +2,7 @@
 
 require 'spec_helper_acceptance'
 
-describe 'userlist define', unless: (os[:family] == 'redhat' && os[:release][0] == '5') do
+describe 'userlist define' do
   pp_one = <<-PUPPETCODE
       class { 'haproxy': }
       haproxy::userlist { 'users_groups':
