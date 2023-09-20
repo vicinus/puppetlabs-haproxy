@@ -44,25 +44,8 @@ RSpec.configure do |c|
 
     if os[:family] == 'redhat' && os[:release].to_i != 8
       epel_owner = 'puppet'
-      epel_owner = 'stahnma' if os[:release].to_i == 6
       LitmusHelper.instance.run_shell("puppet module install #{epel_owner}/epel")
-      if os[:release][0].match?(%r{5|6})
-        pp = <<-PP
-        class { 'epel':
-
-              epel_baseurl => "http://osmirror.delivery.puppetlabs.net/epel${::operatingsystemmajrelease}-\\$basearch/RPMS.all",
-              epel_mirrorlist => "http://osmirror.delivery.puppetlabs.net/epel${::operatingsystemmajrelease}-\\$basearch/RPMS.all",
-
-        }
-        PP
-        LitmusHelper.instance.apply_manifest(pp)
-      else
-        LitmusHelper.instance.run_shell("puppet apply -e 'include epel'")
-      end
-    end
-    if os[:family] == 'redhat' && os[:release].to_i == 6
-      LitmusHelper.instance.run_shell('yum clean all')
-      LitmusHelper.instance.run_shell('yum --disablerepo="epel" update nss -y')
+      LitmusHelper.instance.run_shell("puppet apply -e 'include epel'")
     end
     pp = <<-PP
     package { 'curl': ensure => present, }
