@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v7.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v7.2.1) - 2023-09-26
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v7.2.0...v7.2.1)
+
+### Fixed
+
+- Replace merge() with native puppet code [#579](https://github.com/puppetlabs/puppetlabs-haproxy/pull/579) ([hawkeye-7](https://github.com/hawkeye-7))
+- haproxy::backend: Always set $_sort_options_alphabetic [#576](https://github.com/puppetlabs/puppetlabs-haproxy/pull/576) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v7.2.0) - 2023-08-11
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v7.1.0...v7.2.0)
