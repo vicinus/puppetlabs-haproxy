@@ -26,10 +26,10 @@
 #   Optional. Defaults to 'haproxy'.
 #
 define haproxy::defaults (
-  Optional[Hash] $options                  = {},
-  Boolean        $sort_options_alphabetic  = true,
-  Boolean        $merge_options            = $haproxy::params::merge_options,
-  String         $instance                 = 'haproxy',
+  Hash    $options                  = {},
+  Boolean $sort_options_alphabetic  = true,
+  Boolean $merge_options            = $haproxy::params::merge_options,
+  String  $instance                 = 'haproxy',
 ) {
   if $instance == 'haproxy' {
     include haproxy
