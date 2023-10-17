@@ -714,6 +714,7 @@ The following parameters are available in the `haproxy::defaults` defined type:
 
 * [`options`](#-haproxy--defaults--options)
 * [`sort_options_alphabetic`](#-haproxy--defaults--sort_options_alphabetic)
+* [`merge_options`](#-haproxy--defaults--merge_options)
 * [`instance`](#-haproxy--defaults--instance)
 
 ##### <a name="-haproxy--defaults--options"></a>`options`
@@ -732,6 +733,17 @@ Sort options either alphabetic or custom like haproxy internal sorts them.
 Defaults to true.
 
 Default value: `true`
+
+##### <a name="-haproxy--defaults--merge_options"></a>`merge_options`
+
+Data type: `Boolean`
+
+Whether to merge the user-supplied `options` hash with the
+`default_options` values set in params.pp. Merging allows to change
+or add options without having to recreate the entire hash. Defaults to
+false, but will default to true in future releases.
+
+Default value: `$haproxy::params::merge_options`
 
 ##### <a name="-haproxy--defaults--instance"></a>`instance`
 
