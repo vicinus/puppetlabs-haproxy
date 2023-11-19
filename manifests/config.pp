@@ -25,7 +25,6 @@ define haproxy::config (
   } else {
     $_global_options   = $global_options
     $_defaults_options = $defaults_options
-    warning("${module_name}: The \$merge_options parameter will default to true in the next major release. Please review the documentation regarding the implications.") # lint:ignore:140chars
   }
 
   if defined(Class['haproxy']) {
