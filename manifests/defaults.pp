@@ -48,7 +48,6 @@ define haproxy::defaults (
     $_defaults_options = $haproxy::params::defaults_options + $defaults_options
   } else {
     $_defaults_options = $defaults_options
-    warning("${module_name}: The \$merge_options parameter will default to true in the next major release. Please review the documentation regarding the implications.") # lint:ignore:140chars
   }
 
   $parameters = {
