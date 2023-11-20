@@ -19,8 +19,7 @@
 # @param merge_options
 #   Whether to merge the user-supplied `options` hash with the
 #   `default_options` values set in params.pp. Merging allows to change
-#   or add options without having to recreate the entire hash. Defaults to
-#   false, but will default to true in future releases.
+#   or add options without having to recreate the entire hash.
 #
 # @param instance
 #   Optional. Defaults to 'haproxy'.

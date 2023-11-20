@@ -49,6 +49,12 @@ file on an haproxy load balancer.
 * `haproxy::mailer::collect_exported`
 * `haproxy::service`: HAProxy service
 
+### Functions
+
+* [`haproxy::generate_error_message`](#haproxy--generate_error_message): Function created to generate error message. Any string as error message can be passed and the function can be called in epp templates.
+* [`haproxy::sort_bind`](#haproxy--sort_bind)
+* [`haproxy::validate_ip_addr`](#haproxy--validate_ip_addr)
+
 ## Classes
 
 ### <a name="haproxy"></a>`haproxy`
@@ -740,8 +746,7 @@ Data type: `Boolean`
 
 Whether to merge the user-supplied `options` hash with the
 `default_options` values set in params.pp. Merging allows to change
-or add options without having to recreate the entire hash. Defaults to
-false, but will default to true in future releases.
+or add options without having to recreate the entire hash.
 
 Default value: `$haproxy::params::merge_options`
 
@@ -2021,4 +2026,62 @@ Data type: `String`
 Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
+
+## Functions
+
+### <a name="haproxy--generate_error_message"></a>`haproxy::generate_error_message`
+
+Type: Ruby 4.x API
+
+Function created to generate error message. Any string as error message can be passed and the function can
+be called in epp templates.
+
+#### `haproxy::generate_error_message(String $error_message)`
+
+Function created to generate error message. Any string as error message can be passed and the function can
+be called in epp templates.
+
+Returns: `Any`
+
+##### `error_message`
+
+Data type: `String`
+
+
+
+### <a name="haproxy--sort_bind"></a>`haproxy::sort_bind`
+
+Type: Ruby 4.x API
+
+The haproxy::sort_bind function.
+
+#### `haproxy::sort_bind(Hash $bind)`
+
+The haproxy::sort_bind function.
+
+Returns: `Array`
+
+##### `bind`
+
+Data type: `Hash`
+
+
+
+### <a name="haproxy--validate_ip_addr"></a>`haproxy::validate_ip_addr`
+
+Type: Ruby 4.x API
+
+The haproxy::validate_ip_addr function.
+
+#### `haproxy::validate_ip_addr(String $virtual_ip)`
+
+The haproxy::validate_ip_addr function.
+
+Returns: `Boolean`
+
+##### `virtual_ip`
+
+Data type: `String`
+
+
 
