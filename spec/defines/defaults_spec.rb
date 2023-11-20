@@ -25,7 +25,8 @@ describe 'haproxy::defaults' do
   context 'with a single option' do
     let(:params) do
       {
-        options: { 'balance' => 'roundrobin' }
+        options: { 'balance' => 'roundrobin' },
+        merge_options: false
       }
     end
 
@@ -41,8 +42,7 @@ describe 'haproxy::defaults' do
   context 'with merge defaults true' do
     let(:params) do
       {
-        options: { 'balance' => 'roundrobin' },
-        merge_options: true
+        options: { 'balance' => 'roundrobin' }
       }
     end
 
