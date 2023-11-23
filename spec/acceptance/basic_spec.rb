@@ -125,7 +125,7 @@ describe 'configuring haproxy' do
         end
       end
 
-      describe file('/etc/haproxy/haproxy.cfg') do # rubocop:disable RSpec/NestedGroups
+      describe file('/etc/haproxy/haproxy.cfg') do
         its(:content) do
           is_expected.to match %r{backend\sservers\n\s+mode\shttp\n\s+option\shttpchk\n\s+http-check\s+disable-on-404}
         end
