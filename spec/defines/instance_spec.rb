@@ -3,7 +3,6 @@
 require 'spec_helper'
 
 describe 'haproxy::instance' do
-  # rubocop:disable RSpec/NestedGroups
   let(:default_facts) do
     {
       concat_basedir: '/dne',
@@ -219,7 +218,7 @@ describe 'haproxy::instance' do
             )
           end
 
-          describe 'Base concat fragment contents' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+          describe 'Base concat fragment contents' do
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
             it 'contains global and defaults sections' do
@@ -472,7 +471,7 @@ describe 'haproxy::instance' do
             )
           end
 
-          describe 'Base concat fragment contents' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+          describe 'Base concat fragment contents' do
             let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-group1-haproxy-base', 'content').split("\n") }
 
             it 'contains global and defaults sections' do
@@ -640,7 +639,7 @@ describe 'haproxy::instance' do
           )
         end
 
-        describe 'Base concat fragment contents' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+        describe 'Base concat fragment contents' do
           let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
 
           it 'contains global and defaults sections' do
