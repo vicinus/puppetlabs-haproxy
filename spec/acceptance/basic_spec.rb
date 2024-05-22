@@ -42,6 +42,32 @@ describe 'configuring haproxy' do
         class { 'haproxy': }
         haproxy::listen { 'stats':
           ipaddress => '127.0.0.1',
+          ports     => [9090, 9091],
+          mode      => 'http',
+          options   => { 'stats' => ['uri /','auth puppet:puppet'], },
+        }
+      PUPPETCODE
+      it 'is able to listen on an array of ports' do
+        retry_on_error_matching do
+          apply_manifest(pp_two, catch_failures: true)
+        end
+      end
+
+      ['9090', '9091'].each do |port|
+        it "port #{port} has stats listening on each port" do
+          run_shell("/usr/bin/curl -u puppet:puppet localhost:#{port}") do |r|
+            expect(r.stdout).to contain %r{HAProxy}
+            expect(r.exit_code).to eq 0
+          end
+        end
+      end
+    end
+
+    describe 'multiple ports as strings' do
+      pp_two = <<-PUPPETCODE
+        class { 'haproxy': }
+        haproxy::listen { 'stats':
+          ipaddress => '127.0.0.1',
           ports     => ['9090','9091'],
           mode      => 'http',
           options   => { 'stats' => ['uri /','auth puppet:puppet'], },
@@ -71,7 +97,7 @@ describe 'configuring haproxy' do
         class { 'haproxy': }
         haproxy::listen { 'stats':
           ipaddress => '127.0.0.1',
-          ports     => ['9090','9091'],
+          ports     => [9090,9091],
           mode      => 'http',
           options   => { 'stats' => ['uri /','auth puppet:puppet'], },
         }
@@ -101,7 +127,7 @@ describe 'configuring haproxy' do
       class { 'haproxy': }
       haproxy::listen { 'stats':
         ipaddress => '127.0.0.1',
-        ports     => ['9091'],
+        ports     => [9091],
         mode      => 'http',
       }
       haproxy::backend { 'servers':
