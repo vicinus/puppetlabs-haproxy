@@ -43,20 +43,20 @@ node 'haproxy-server' {
   haproxy::listen { 'puppet00':
     collect_exported => false,
     ipaddress        => $facts['networking']['ip'],
-    ports            => '8140',
+    ports            => [8140],
   }
   haproxy::balancermember { 'server00':
     listening_service => 'puppet00',
     server_names      => 'server00.example.com',
     ipaddresses       => '10.0.0.10',
-    ports             => '8140',
+    ports             => [8140],
     options           => 'check',
   }
   haproxy::balancermember { 'server01':
     listening_service => 'puppet00',
     server_names      => 'server01.example.com',
     ipaddresses       => '10.0.0.11',
-    ports             => '8140',
+    ports             => [8140],
     options           => 'check',
   }
 }
@@ -153,7 +153,7 @@ To export the resource for a balancermember and collect it on a single HAProxy l
 ~~~puppet
 haproxy::listen { 'puppet00':
   ipaddress => $facts['networking']['ip'],
-  ports     => '8140',
+  ports     => [8140],
   mode      => 'tcp',
   options   => {
     'option'  => [
@@ -213,7 +213,7 @@ Then create the resource for multiple balancermembers at once:
 ~~~puppet
 haproxy::balancermember { 'haproxy':
   listening_service => 'puppet00',
-  ports             => '8140',
+  ports             => 8140,
   server_names      => ['server01', 'server02'],
   ipaddresses       => ['192.168.56.200', '192.168.56.201'],
   options           => 'check',
@@ -231,7 +231,7 @@ node 'haproxy-server' {
   include ::haproxy
   haproxy::listen { 'puppet00':
     ipaddress => $facts['networking']['ip'],
-    ports     => '8140',
+    ports     => 8140,
   }
 }
 
@@ -240,7 +240,7 @@ node /^server\d+/ {
     listening_service => 'puppet00',
     server_names      => $facts['networking']['hostname'],
     ipaddresses       => $facts['networking']['ip'],
-    ports             => '8140',
+    ports             => 8140,
     options           => 'check',
   }
 }
@@ -255,7 +255,7 @@ This example routes traffic from port 8140 to all balancermembers added to a bac
 ~~~puppet
 haproxy::frontend { 'puppet00':
   ipaddress     => $facts['networking']['ip'],
-  ports         => '8140',
+  ports         => 8140,
   mode          => 'tcp',
   bind_options  => 'accept-proxy',
   options       => {
@@ -274,7 +274,7 @@ If option order is important, pass an array of hashes to the `options` parameter
 ~~~puppet
 haproxy::frontend { 'puppet00':
   ipaddress     => $facts['networking']['ip'],
-  ports         => '8140',
+  ports         => [8140],
   mode          => 'tcp',
   bind_options  => 'accept-proxy',
   options       => [
@@ -353,7 +353,7 @@ haproxy::resolver { 'puppet00':
 # Setup the balancermember to use the resolver for DNS resolution
 haproxy::balancermember { 'haproxy':
   listening_service => 'puppet00',
-  ports             => '8140',
+  ports             => 8140,
   server_names      => ['server01', 'server02'],
   ipaddresses       => ['server01', 'server02'],
   options           => 'check resolvers puppet00 resolve-prefer ipv4',
@@ -399,7 +399,7 @@ class and uses `haproxy::instance` to add an additional instance called
      instance         => 'haproxy',
      collect_exported => false,
      ipaddress        => $facts['networking']['ip'],
-     ports            => '8800',
+     ports            => 8800,
    }
 
    haproxy::instance { 'beta': }
@@ -413,7 +413,7 @@ class and uses `haproxy::instance` to add an additional instance called
      instance         => 'beta',
      collect_exported => false,
      ipaddress        => $facts['networking']['ip'],
-     ports            => '9900',
+     ports            => 9900,
    }
 ~~~
 
@@ -432,7 +432,7 @@ The second uses a custom package.
      instance         => 'group1',
      collect_exported => false,
      ipaddress        => $facts['networking']['ip'],
-     ports            => '8800',
+     ports            => 8800,
    }
    haproxy::instance { 'group2': }
    ->
@@ -446,7 +446,7 @@ The second uses a custom package.
      instance         => 'group2',
      collect_exported => false,
      ipaddress        => $facts['networking']['ip'],
-     ports            => '9900',
+     ports            => 9900,
    }
 ~~~
 
@@ -481,7 +481,7 @@ Or expressed using `haproxy::frontend`:
 ~~~puppet
 haproxy::frontend { 'ft_allapps':
   ipaddress => '0.0.0.0',
-  ports     => '80',
+  ports     => ['80'],
   mode      => 'http',
   options   => {
     'use_backend' => '%[req.hdr(host),lower,map(/etc/haproxy/domains-to-backends.map,bk_default)]'

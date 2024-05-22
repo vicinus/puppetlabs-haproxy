@@ -22,7 +22,7 @@ describe 'haproxy::frontend' do
       {
         name: 'croy',
         ipaddress: '1.1.1.1',
-        ports: '18140'
+        ports: 18_140
       }
     end
 
@@ -33,6 +33,19 @@ describe 'haproxy::frontend' do
         'content' => "\nfrontend croy\n  bind 1.1.1.1:18140 \n  option tcplog\n",
       )
     }
+    context 'with stringy port' do
+      let(:params) do
+        super().merge(ports: '18140')
+      end
+
+      it {
+        is_expected.to contain_concat__fragment('haproxy-croy_frontend_block').with(
+          'order' => '15-croy-00',
+          'target' => '/etc/haproxy/haproxy.cfg',
+          'content' => "\nfrontend croy\n  bind 1.1.1.1:18140 \n  option tcplog\n",
+        )
+      }
+    end
   end
 
   # C9948 C9947
@@ -41,7 +54,7 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: ['80', '443']
+        ports: [80, 443]
       }
     end
 
@@ -52,25 +65,33 @@ describe 'haproxy::frontend' do
         'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
       )
     }
-  end
+    context 'with stringy port' do
+      let(:params) do
+        super().merge(ports: ['80', '443'])
+      end
 
-  # C9948
-  context 'when a comma-separated list of ports is provided' do
-    let(:params) do
-      {
-        name: 'apache',
-        ipaddress: '23.23.23.23',
-        ports: '80,443'
+      it {
+        is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
+          'order' => '15-apache-00',
+          'target' => '/etc/haproxy/haproxy.cfg',
+          'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
+        )
       }
     end
+    # C9948
+    context 'with a comma-seperated list of ports' do
+      let(:params) do
+        super().merge(ports: '80,443')
+      end
 
-    it {
-      is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-        'order' => '15-apache-00',
-        'target' => '/etc/haproxy/haproxy.cfg',
-        'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
-      )
-    }
+      it {
+        is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
+          'order' => '15-apache-00',
+          'target' => '/etc/haproxy/haproxy.cfg',
+          'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
+        )
+      }
+    end
   end
 
   # C9971
